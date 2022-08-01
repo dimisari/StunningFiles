@@ -1,2 +1,2 @@
 # StunningFiles
-## Configs and Templates
+## Configs and Scripts
