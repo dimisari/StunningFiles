@@ -41,7 +41,7 @@ alias dck="docker-compose kill"
 alias r="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
 
 # help scripts
-helpScripts="$HOME/StunningHelpFiles/Scripts"
+helpScripts="$HOME/StunningFiles/Scripts"
 alias temp="$helpScripts/CopyTemplate.sh"
 alias dirr="$helpScripts/ReplaceInDir.sh"
 alias inv="$helpScripts/InVim.sh"

@@ -1,0 +1,12 @@
+_ = _
+
+all: _
+	_
+
+_:_
+
+clean:
+	rm -f _ _
+
+clean_:
+	rm -f _
