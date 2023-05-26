@@ -1,39 +1,23 @@
 #!/bin/bash
 
 backups="$HOME/.configBackups"
-
 mkdir $backups
 
-cd ../Files
-
-stunningConfigs="$(pwd)"
-
-getIntermediateDirOfFile () {
-  case $1 in
-    .vimrc) echo "vim";;
-    .bashrc) echo "bash";;
-    .bash_aliases) echo "bash";;
-    .Xresources) echo "X";;
-    *) echo "wasn't supposed to happen. got this -> $1"; exit
-  esac
-}
-
-# files 
-for file in .vimrc .bashrc .bash_aliases .Xresources
+for file in .vimrc .bashrc .bash_aliases
 do
   mv -f $HOME/$file $backups
+done
 
-  ln -s $stunningConfigs/$(getIntermediateDirOfFile $file)/$file $HOME
+cd ../Configs
+stunningConfigs="$(pwd)"
+
+for file in .vimrc bash/.bashrc bash/.bash_aliases
+do
+  ln -s $stunningConfigs/$file $HOME
 done
 
 source "$HOME/.bashrc"
 
 configs="$HOME/.config"
-
-# dirs
-for dir in i3blocks i3 ranger
-do
-  mv -f $configs/$dir $backups
-
-  ln -s $stunningConfigs/$dir $configs/$dir
-done
+mv -f $configs/ranger $backups
+ln -s $stunningConfigs/ranger $configs/ranger

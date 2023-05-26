@@ -1,8 +1,5 @@
-Pattern: https?://duckduckgo.com/*
-Keys: jk
-
 Pattern: https://www.youtube.com/*
-Keys: fNPm<>
+Keys: fNPm<>/
 
 keyMappings:
 
@@ -25,6 +22,9 @@ map s enterFindMode
 "gonna go back with 'b'
 unmap b
 map b goBack
+
+"go forward with 'n'
+map n goForward
 
 "for youtube, 'f' is for fullscreen
 unmap F
