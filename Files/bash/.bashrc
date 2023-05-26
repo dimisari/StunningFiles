@@ -44,8 +44,18 @@ if ! shopt -oq posix; then
   fi
 fi
 
+ghu(){
+  git add .
+  case $1 in 
+    "") git commit -m "Just Saving" ;;
+    *)  git commit -m "$1" ;;
+  esac
+  git push
+}
+
 PS1="\W: "
 bind '"\el":previous-history'
 bind '"\ek":next-history'
+bind '"\ee":alias-expand-line'
 
-PATH=/home/gnostis/.cabal/bin:$PATH
+[ -f "/home/gnostis/.ghcup/env" ] && source "/home/gnostis/.ghcup/env" # ghcup-env
