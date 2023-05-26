@@ -1,52 +1,50 @@
+# often used currently
+alias vn="cd $HOME/Desktop/lambda-cases/haskell_generation/src; vim .paths"
+alias ghci="ghci -XLambdaCase"
+
 # configs
 bashFile="$HOME/.bashrc"
-XresourcesFile="$HOME/.Xresources"
 alias vb="vim $bashFile"
+alias sb="source $bashFile"
 alias vba="vim $HOME/.bash_aliases"
 alias vv="vim $HOME/.vimrc"
-alias vi3="vim $HOME/.config/i3/config"
-alias vx="vim $XresourcesFile"
-alias sb="source $bashFile"
-alias sx="xrdb $XresourcesFile"
-
-# ranger
-alias r="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
-alias sr="sudo ranger"
-
-helpScripts="$HOME/StunningHelpFiles/Scripts"
-
-# help scripts
-alias temp="$helpScripts/CopyTemplate.sh"
-alias dirReplace="$helpScripts/ReplaceInDir.sh"
 
 # git
-alias gh="$helpScripts/GitAddCommitPush.sh"
 alias gp="git pull"
 alias gc="git clone"
+alias gb="git branch"
+alias gch="git checkout"
 
 # general commands in short
-alias c="cd"
-alias v="vim"
-alias sv="sudo vim"
 alias m="make"
 alias mc="make clean"
 alias mc_="make clean_"
-alias sai="sudo apt install"
-alias bye="sudo shutdown 0"
 alias ..="cd .."
-alias gr="grep -r"
+alias gr="grep -rn"
 
-# executables
-executables="$HOME/StunningExecutables"
-alias exercises="$executables/Exercises/Executable"
-alias grades="$executables/Grades/ShowGrades < $executables/Grades/grades.csv"
+# haskell cabal
+alias cb="cabal build"
+alias cr="cabal run"
 
-# uni
-alias parlab="ssh parlab02@orion.cslab.ece.ntua.gr"
-alias parlabfs="sshfs -o IdentityFile=$HOME/.ssh/id_rsa parlab02@orion.cslab.ece.ntua.gr:/home/parallel/parlab02/scirouter /home/gnostis/scirouter"
+# docker
+alias dps="docker ps"
+alias dims="docker images"
+alias drmi="docker image rm -f"
+alias db="docker build . -t"
+alias dr="docker run"
+alias dk="docker kill"
+alias dcb="docker-compose build"
+alias dcu="docker-compose up"
+alias dck="docker-compose kill"
 
-# periodic table
-alias ptab="feh $HOME/Pictures/PeriodicTable.png"
+# stay in same dir after ranger exit
+alias r="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
 
-# check temperature
-alias ct=" while true; do sudo cpu; sleep 2; done"
+# help scripts
+helpScripts="$HOME/StunningHelpFiles/Scripts"
+alias temp="$helpScripts/CopyTemplate.sh"
+alias dirr="$helpScripts/ReplaceInDir.sh"
+alias inv="$helpScripts/InVim.sh"
+
+# grades
+alias grades="cd $HOME/StunningExecutables/Grades; stack run"
