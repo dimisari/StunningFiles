@@ -2,14 +2,14 @@
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
 
-"make column 84 red
-set colorcolumn=84
+"make column 85 red
+set colorcolumn=85
 
 "scroll 10 lines before edge
 set scrolloff=10
 
 "searh options
-set hlsearch incsearch
+set hlsearch incsearch ignorecase smartcase
 
 "tab options
 set expandtab tabstop=2 shiftwidth=2
@@ -144,7 +144,7 @@ set noswapfile
 "custom commands
 command! Sv execute "source ~/.vimrc"
 command! G execute "!ghci %"
-command! Cr execute "!path=$(pwd); cd /home/gnostis/Desktop/lambda-cases/haskell_generation; cabal run; cd $path"
+command! Cr execute "!path=$(pwd); cd /home/gnostis/lambda-cases/haskell_generation; cabal run; cd $path"
 
 "encoding
 set encoding=utf-8

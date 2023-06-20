@@ -1,5 +1,7 @@
 # often used currently
-alias vn="cd $HOME/lambda-cases/haskell_generation/src; vim .paths"
+haskell_gen="$HOME/lambda-cases/haskell_generation"
+alias vn="cd $haskell_gen/src; vim .paths"
+alias vc="cd $haskell_gen; vim haskell_generation.cabal"
 alias ghci="ghci -XLambdaCase"
 
 # configs
