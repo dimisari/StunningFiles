@@ -60,9 +60,12 @@ set noswapfile
   "use ".paths" for jumping through project files quickly
 
   "edit file under cursor
-  noremap <space>e gf
+  noremap <Space>e gf
   "jump back to ".paths"
   noremap <Space>w :e .paths<cr>
+
+  "cycle through vim windows
+  noremap <Space>c <C-w>w
 
 "normal mode maps 
 
@@ -100,11 +103,43 @@ set noswapfile
   "quit without saving
   nnoremap <Space>q :q!<CR>
 
-  "latex reload
-  nnoremap <Space>p :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
-
   "help
   nnoremap <Space>h K
+
+  "comment/uncomment selected text
+    "Haskell
+    nnoremap <Space>hc 0i-- <Esc>
+    nnoremap <Space>hu 0v2ld
+
+  "latex maps
+    "reload
+    nnoremap <Space>lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
+
+    "verbatim
+    nnoremap <Space>lv 
+      \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
+
+    "itemize
+    nnoremap <Space>li 
+      \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko<Esc>
+
+    "latex: itemize with Examples, Description, Grammar, lm = latex many
+    nnoremap <Space>lm
+      \ o\begin{itemize}<CR><CR>
+      \\item \textit{Examples}<CR><CR>
+      \\item \textit{Description} \\\\<CR><CR>
+      \\item \textit{Grammar}<CR><CR>
+      \\begin{grammar}<CR><CR>
+      \<grammar> ::= <grammar><CR><CR>
+      \\end{grammar} <CR><CR>
+      \\end{itemize}<CR><Esc>
+
+  "Haskel maps
+    "type
+    nnoremap <Space>t itype<Esc>
+
+    "type
+    nnoremap <Space>d idata<Esc>
 
 "visual mode maps 
 
@@ -115,7 +150,7 @@ set noswapfile
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
   vnoremap <Space>r y/\V<C-R>=escape(@",'/\')<CR><CR>Nqq
 
-  "way to go to normal mode
+  "go to normal mode
   vnoremap mk <Esc>
 
   "space before (used in visual block for multiple lines)
@@ -125,6 +160,14 @@ set noswapfile
   vnoremap c "+y
   vnoremap d "+d
 
+  "enclose visually selected text in paren
+  vnoremap <Space>p s(<c-r>")<Esc>
+
+  "comment out/uncomment selected text
+    "Haskell
+    vnoremap <Space>hc :norm i-- <CR>
+    vnoremap <Space>hu :norm ddd<CR>
+
 "insert mode maps 
 
   "autocomplete with tab
@@ -133,13 +176,8 @@ set noswapfile
   inoremap <expr> k pumvisible() ? "\<C-N>" : "k"
   inoremap <expr> l pumvisible() ? "\<C-P>" : "l"
 
-  "way to go to normal mode
+  "go to normal mode
   inoremap mk <Esc>
-
-"command mode maps
-
-  "edit command mode history, executes last line with enter
-  cnoremap <Space>e <C-f>
 
 "custom commands
 command! Sv execute "source ~/.vimrc"

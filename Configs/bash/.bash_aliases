@@ -1,8 +1,5 @@
 # often used currently
-haskell_gen="$HOME/lambda-cases/haskell_generation"
-alias vn="cd $haskell_gen/src; vim .paths"
-alias vc="cd $haskell_gen; vim haskell_generation.cabal"
-alias ghci="ghci -XLambdaCase"
+alias vs="vim $HOME/Desktop/steps.txt"
 
 # configs
 bashFile="$HOME/.bashrc"
@@ -24,9 +21,10 @@ alias mc_="make clean_"
 alias ..="cd .."
 alias gr="grep -rn"
 
-# haskell cabal
+# haskell 
 alias cb="cabal build"
 alias cr="cabal run"
+alias ghci="ghci -XLambdaCase"
 
 # docker
 alias dps="docker ps"
@@ -50,3 +48,4 @@ alias inv="$helpScripts/InVim.sh"
 
 # grades
 alias grades="cd $HOME/StunningExecutables/Grades; stack run"
+
