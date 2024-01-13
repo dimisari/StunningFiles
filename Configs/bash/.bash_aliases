@@ -1,5 +1,5 @@
 # often used currently
-alias vs="vim $HOME/Desktop/steps.txt"
+alias tasks="cd $HOME/lambda-cases/other/; vim current_tasks.txt"
 
 # configs
 bashFile="$HOME/.bashrc"
@@ -13,6 +13,8 @@ alias gp="git pull"
 alias gc="git clone"
 alias gb="git branch"
 alias gch="git checkout"
+alias gd="git diff"
+alias gl="git log"
 
 # general commands in short
 alias m="make"

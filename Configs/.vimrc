@@ -36,6 +36,9 @@ set noswapfile
   "paste after/at cursor from clipboard
   noremap p "+p
   noremap P "+P
+  "space + p + letter => paste from register letter
+  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
+
   "next/previous in search + center cursor
   noremap n nzz
   noremap N Nzz
@@ -56,16 +59,13 @@ set noswapfile
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
 
-  "run "tree -f > .paths" in project root (edit ".paths" appropriately)
-  "use ".paths" for jumping through project files quickly
+    "run "tree -f > .paths" in project root (edit ".paths" appropriately)
+    "use ".paths" for jumping through project files quickly
 
-  "edit file under cursor
-  noremap <Space>e gf
-  "jump back to ".paths"
-  noremap <Space>w :e .paths<cr>
-
-  "cycle through vim windows
-  noremap <Space>c <C-w>w
+    "edit file under cursor
+    "noremap <Space>e gf
+    "jump back to ".paths"
+    "noremap <Space>w :e .paths<cr>
 
 "normal mode maps 
 
@@ -74,8 +74,6 @@ set noswapfile
 
   "search word under cursor + center cursor
   nnoremap <Space>s *Nzz
-  "... + start recording @q (AMAZINGLY useful)
-  nnoremap <Space>r *Nzzqq
 
   "select all
   nnoremap <C-a> ggVG
@@ -98,18 +96,22 @@ set noswapfile
   nnoremap D "+dd
   nnoremap d "+x
 
-  "save
+  "save + quit without saving
   nnoremap <Space>z :w<CR>
-  "quit without saving
   nnoremap <Space>q :q!<CR>
+
+  "edit other file
+  "(saves automatically to not have problems when deleting + pasting stuff)
+  nnoremap <Space>e :w<CR>:e 
 
   "help
   nnoremap <Space>h K
 
-  "comment/uncomment selected text
-    "Haskell
-    nnoremap <Space>hc 0i-- <Esc>
-    nnoremap <Space>hu 0v2ld
+  "visually select all text inside and including the next parentheses
+  nnoremap <Space>jp f(vab
+
+  "visually select all text inside and including the next parentheses
+  nnoremap <Space>j[ f[va[
 
   "latex maps
     "reload
@@ -146,9 +148,11 @@ set noswapfile
   "replace all occurences of visually selected text
   vnoremap r "hy:%s/<C-r>h//g<Left><Left>
 
-  "search visually selected text/... + start recording @q (AMAZINGLY useful too)
+  "search visually selected text
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
-  vnoremap <Space>r y/\V<C-R>=escape(@",'/\')<CR><CR>Nqq
+
+  "replace something inside the viusally selected area
+  vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
   vnoremap mk <Esc>
@@ -160,13 +164,20 @@ set noswapfile
   vnoremap c "+y
   vnoremap d "+d
 
+  "space + c + letter => copy to register letter
+  vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
+
   "enclose visually selected text in paren
-  vnoremap <Space>p s(<c-r>")<Esc>
+  vnoremap <Space>b s(<c-r>")<Esc>
 
   "comment out/uncomment selected text
     "Haskell
     vnoremap <Space>hc :norm i-- <CR>
     vnoremap <Space>hu :norm ddd<CR>
+
+    "Bash/Python
+    vnoremap <C-c> :norm i# <CR>
+    vnoremap <C-u> :norm dd<CR>
 
 "insert mode maps 
 
@@ -179,10 +190,21 @@ set noswapfile
   "go to normal mode
   inoremap mk <Esc>
 
+"command mode maps 
+
+  "autocomplete with tab
+  cnoremap <C-l> <C-p>
+  cnoremap <C-k> <C-n>
+
 "custom commands
-command! Sv execute "source ~/.vimrc"
-command! G execute "!ghci %"
-command! Cr execute "!path=$(pwd); cd /home/gnostis/lambda-cases/haskell_generation; cabal run; cd $path"
+  "source vimrc
+  command! Sv execute "source ~/.vimrc"
+
+  "load current (haskell) file in ghci
+  command! G execute "!ghci %"
+
+  "run current (script) file
+  command! RS execute "!./%"
 
 "encoding
 set encoding=utf-8
