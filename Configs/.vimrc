@@ -29,58 +29,61 @@ set noswapfile
 
 "general maps
 
-  "search
-  noremap s /
-  "substitute char
-  noremap x s
-  "paste after/at cursor from clipboard
-  noremap p "+p
-  noremap P "+P
-  "space + p + letter => paste from register letter
-  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
-
-  "next/previous in search + center cursor
-  noremap n nzz
-  noremap N Nzz
-
-  "left/down/up/right + down/up for split huge lines 
+  "left/down/up/right for normal people who follow the standard typing guidelines
   noremap j h
   noremap k j
   noremap l k
   noremap ; l
-  noremap gk gj
-  noremap gl gk
+
+  "search
+  noremap s /
+  "substitute (char in normal mode, selected text in visual mode)
+  noremap x s
+  "paste after/at cursor from clipboard
+  noremap p "+p
+  noremap P "+P
+  "space + p + letter => paste from register with that letter
+  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
 
   "LOVE these
-  "paragraph down/up + center cursor
+  "next/previous search match + center vertically
+  noremap n nzz
+  noremap N Nzz
+  "paragraph down/up + center cursor vertically
   noremap K }zz
   noremap L {zz
-  "half a page down/up + center cursor
+  "half page down/up + center cursor vertically
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
 
-    "run "tree -f > .paths" in project root (edit ".paths" appropriately)
-    "use ".paths" for jumping through project files quickly
-
-    "edit file under cursor
-    "noremap <Space>e gf
-    "jump back to ".paths"
-    "noremap <Space>w :e .paths<cr>
+  "down/up for split huge lines 
+  noremap gk gj
+  noremap gl gk
 
 "normal mode maps 
 
   "replace all occurences of word under cursor
   nnoremap r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-  "search word under cursor + center cursor
+  "search word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
 
-  "select all
-  nnoremap <C-a> ggVG
+  "copy line into clipboard
+  "nnoremap c "+yy
+  "delete line into clipboard
+  "nnoremap D "+dd
+  "delete single character into clipboard
+  "nnoremap d "+x
 
-  "space at/after cursor, empty line above/below
+  "save 
+  nnoremap <Space>z :w<CR>
+  "quit (without saving)
+  nnoremap <Space>q :q!<CR>
+
+  "space at/after cursor
   nnoremap <Space>i i<Space><Esc>
   nnoremap <Space>a a<Space><Esc>
+  "empty line above/below
   nnoremap <Space>O O<Esc>j
   nnoremap <Space>o o<Esc>k
 
@@ -91,15 +94,6 @@ set noswapfile
   "remove previous search highlighting
   nnoremap h :noh<CR>
 
-  "copy line/delete line/delete single character into clipboard
-  nnoremap c "+yy
-  nnoremap D "+dd
-  nnoremap d "+x
-
-  "save + quit without saving
-  nnoremap <Space>z :w<CR>
-  nnoremap <Space>q :q!<CR>
-
   "edit other file
   "(saves automatically to not have problems when deleting + pasting stuff)
   nnoremap <Space>e :w<CR>:e 
@@ -107,11 +101,13 @@ set noswapfile
   "help
   nnoremap <Space>h K
 
-  "visually select all text inside and including the next parentheses
+  "visually select all text inside 
+  "and including the next parentheses/square brackets
   nnoremap <Space>jp f(vab
+  nnoremap <Space>js f[va[
 
-  "visually select all text inside and including the next parentheses
-  nnoremap <Space>j[ f[va[
+  "select all
+  nnoremap <C-a> ggVG
 
   "latex maps
     "reload
@@ -136,13 +132,6 @@ set noswapfile
       \\end{grammar} <CR><CR>
       \\end{itemize}<CR><Esc>
 
-  "Haskel maps
-    "type
-    nnoremap <Space>t itype<Esc>
-
-    "type
-    nnoremap <Space>d idata<Esc>
-
 "visual mode maps 
 
   "replace all occurences of visually selected text
@@ -157,14 +146,14 @@ set noswapfile
   "go to normal mode
   vnoremap mk <Esc>
 
-  "space before (used in visual block for multiple lines)
+  "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
 
   "copy/delete visually selected text
   vnoremap c "+y
   vnoremap d "+d
 
-  "space + c + letter => copy to register letter
+  "space + c + letter => copy visually selected text to register with that letter
   vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
   "enclose visually selected text in paren
@@ -192,19 +181,17 @@ set noswapfile
 
 "command mode maps 
 
-  "autocomplete with tab
+  "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
 
 "custom commands
   "source vimrc
   command! Sv execute "source ~/.vimrc"
-
   "load current (haskell) file in ghci
   command! G execute "!ghci %"
-
   "run current (script) file
-  command! RS execute "!./%"
+  command! R execute "!./%"
 
 "encoding
 set encoding=utf-8
