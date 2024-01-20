@@ -2,8 +2,8 @@
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
 
-"make column 85 red
-set colorcolumn=85
+"make column 84 red
+set colorcolumn=84
 
 "scroll 10 lines before edge
 set scrolloff=10
@@ -17,12 +17,11 @@ set expandtab tabstop=2 shiftwidth=2
 "indent same as previous line, show huge line breaks
 set autoindent showbreak=--->
 
-"show selected cardinality in visual mode
+"show number of selected characters in visual mode
 set showcmd
 
 "disable swap files
 set noswapfile
-
 
 "You'll probably need :help key-notation 
 "If system clipboard copy and paste don't work install vim-gtk
@@ -68,17 +67,13 @@ set noswapfile
   "search word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
 
-  "copy line into clipboard
-  "nnoremap c "+yy
-  "delete line into clipboard
-  "nnoremap D "+dd
-  "delete single character into clipboard
-  "nnoremap d "+x
-
   "save 
   nnoremap <Space>z :w<CR>
   "quit (without saving)
   nnoremap <Space>q :q!<CR>
+
+  "delete single character into clipboard
+  nnoremap d "+x
 
   "space at/after cursor
   nnoremap <Space>i i<Space><Esc>
@@ -97,6 +92,11 @@ set noswapfile
   "edit other file
   "(saves automatically to not have problems when deleting + pasting stuff)
   nnoremap <Space>e :w<CR>:e 
+  "edit file under cursor
+  nnoremap <Space>f :w<CR>gf
+  "In most files I have a line with all the other files I usually switch to from
+  "that file and I use this map to switch fast. It's usually a comment in the last
+  "line so that I can combine in with G
 
   "help
   nnoremap <Space>h K
@@ -159,7 +159,7 @@ set noswapfile
   "enclose visually selected text in paren
   vnoremap <Space>b s(<c-r>")<Esc>
 
-  "comment out/uncomment selected text
+  "comment/uncomment selected text
     "Haskell
     vnoremap <Space>hc :norm i-- <CR>
     vnoremap <Space>hu :norm ddd<CR>
@@ -184,10 +184,11 @@ set noswapfile
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
+  cnoremap <C-p> <C-r>+
 
 "custom commands
   "source vimrc
-  command! Sv execute "source ~/.vimrc"
+  command! S execute "source ~/.vimrc"
   "load current (haskell) file in ghci
   command! G execute "!ghci %"
   "run current (script) file

@@ -54,9 +54,9 @@ ghu(){
 }
 
 PS1="\W: "
+bind '"\C-j":clear-screen'
 bind '"\C-l":previous-history'
 bind '"\C-k":next-history'
-bind '"\C-u":"\nclear\n"'
 bind '"\C-e":alias-expand-line'
 
 [ -f "/home/gnostis/.ghcup/env" ] && source "/home/gnostis/.ghcup/env" # ghcup-env

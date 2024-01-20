@@ -47,7 +47,3 @@ helpScripts="$HOME/StunningFiles/Scripts"
 alias temp="$helpScripts/CopyTemplate.sh"
 alias dirr="$helpScripts/ReplaceInDir.sh"
 alias inv="$helpScripts/InVim.sh"
-
-# grades
-alias grades="cd $HOME/StunningExecutables/Grades; stack run"
-
