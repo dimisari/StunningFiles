@@ -1,21 +1,28 @@
-"make leftmost column some beautiful color
+"make leftmost column some beautiful color + make column 84 red
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
-
-"make column 84 red
 set colorcolumn=84
 
-"scroll 10 lines before edge
-set scrolloff=10
-
-"searh options
+"searh options:
+"  highlight search + while typing the search (incremental) +
+"  case insensitive (ignore) + become case sensitive in capital letters (smart)
 set hlsearch incsearch ignorecase smartcase
 
-"tab options
-set expandtab tabstop=2 shiftwidth=2
+"self explanatory and awesome
+set autoindent 
 
-"indent same as previous line, show huge line breaks
-set autoindent showbreak=--->
+"tab options:
+"  it is 2 spaces + make it actual spaces (expand) +
+"  autoindent inside multiline paren expr is also 2 spaces 
+set tabstop=2 expandtab shiftwidth=2
+
+"start scrolling 10 lines before hitting any edge because why would you want your 
+"cursor that far
+set scrolloff=10
+
+"show where a line is broken because of hugeness with "-->" as the 3 first chars
+"(cannot be reached by cursor)
+set showbreak=--->
 
 "show number of selected characters in visual mode
 set showcmd
@@ -26,7 +33,9 @@ set noswapfile
 "You'll probably need :help key-notation 
 "If system clipboard copy and paste don't work install vim-gtk
 
-"general maps
+"Always noremap so that I don't use macros inside macros and confuse myself I guess
+
+"general maps (I believe that means normal + visual mode)
 
   "left/down/up/right for normal people who follow the standard typing guidelines
   noremap j h
@@ -36,32 +45,43 @@ set noswapfile
 
   "search
   noremap s /
-  "substitute (char in normal mode, selected text in visual mode)
+  "substitute (cursor char in normal mode, selected text in visual mode)
   noremap x s
-  "paste after/at cursor from clipboard
+
+  "paste after/at cursor from clipboard (on top of selected text in visual mode)
   noremap p "+p
   noremap P "+P
   "space + p + letter => paste from register with that letter
   noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
 
+  "delete single character into clipboard
+  nnoremap d "+x
+  "copy line
+  nnoremap c "+yy
+  "delete line into clipboard
+  nnoremap D "+dd
+
+  "go to last char of line
+  noremap z $
+
   "LOVE these
-  "next/previous search match + center vertically
+  "next/previous search match + center cursor vertically
   noremap n nzz
   noremap N Nzz
-  "paragraph down/up + center cursor vertically
+  "paragraph down/up (next or previous empty line) + center cursor vertically
   noremap K }zz
   noremap L {zz
   "half page down/up + center cursor vertically
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
 
-  "down/up for split huge lines 
+  "down/up for huge lines that are broken
   noremap gk gj
   noremap gl gk
 
 "normal mode maps 
 
-  "replace all occurences of word under cursor
+  "replace all occurences of word under cursor with ...
   nnoremap r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
   "search word under cursor + center cursor vertically
@@ -72,13 +92,10 @@ set noswapfile
   "quit (without saving)
   nnoremap <Space>q :q!<CR>
 
-  "delete single character into clipboard
-  nnoremap d "+x
-
   "space at/after cursor
   nnoremap <Space>i i<Space><Esc>
   nnoremap <Space>a a<Space><Esc>
-  "empty line above/below
+  "empty line above/below cursor
   nnoremap <Space>O O<Esc>j
   nnoremap <Space>o o<Esc>k
 
@@ -94,43 +111,33 @@ set noswapfile
   nnoremap <Space>e :w<CR>:e 
   "edit file under cursor
   nnoremap <Space>f :w<CR>gf
-  "In most files I have a line with all the other files I usually switch to from
-  "that file and I use this map to switch fast. It's usually a comment in the last
-  "line so that I can combine in with G
+  "In most files I have a few lines with all the other files I usually switch
+  "to from there. I use this to switch fast. It's usually a commented area
+  "at the bottom of the file so that I can combine it in with G.
 
-  "help
+  "(vim) help on the word under the cursor 
   nnoremap <Space>h K
 
   "visually select all text inside 
-  "and including the next parentheses/square brackets
+  "and including the next parentheses/square brackets/braces
   nnoremap <Space>jp f(vab
   nnoremap <Space>js f[va[
+  nnoremap <Space>jb f{va{
 
   "select all
   nnoremap <C-a> ggVG
 
   "latex maps
-    "reload
+    "reload pdf
     nnoremap <Space>lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
-    "verbatim
+    "begin and end verbatim + put cursor inside
     nnoremap <Space>lv 
       \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
 
-    "itemize
+    "begin and end itemize + put cursor inside
     nnoremap <Space>li 
       \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko<Esc>
-
-    "latex: itemize with Examples, Description, Grammar, lm = latex many
-    nnoremap <Space>lm
-      \ o\begin{itemize}<CR><CR>
-      \\item \textit{Examples}<CR><CR>
-      \\item \textit{Description} \\\\<CR><CR>
-      \\item \textit{Grammar}<CR><CR>
-      \\begin{grammar}<CR><CR>
-      \<grammar> ::= <grammar><CR><CR>
-      \\end{grammar} <CR><CR>
-      \\end{itemize}<CR><Esc>
 
 "visual mode maps 
 
@@ -140,7 +147,7 @@ set noswapfile
   "search visually selected text
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
-  "replace something inside the viusally selected area
+  "replace something inside the viusally selected text
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
@@ -184,6 +191,8 @@ set noswapfile
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
+
+  "paste in command mode
   cnoremap <C-p> <C-r>+
 
 "custom commands
@@ -204,5 +213,3 @@ set wildmode=full
 "enable K (which is mapped to <Space>h above)
 "for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
-"disable syntax for alex/happy files
-autocmd BufRead *.x,*.y setlocal syntax=OFF
