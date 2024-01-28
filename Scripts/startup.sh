@@ -1,6 +1,6 @@
 #!/bin/bash
 
-lcases_dir=$HOME/lambda-cases
+lcases_dir=$HOME/Desktop/lambda-cases
 desc_dir=$lcases_dir/description/description.ltx
 
 # sleep 5

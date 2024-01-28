@@ -1,6 +1,3 @@
-# often used currently
-alias tasks="cd $HOME/lambda-cases/other/; vim current_tasks.txt"
-
 # configs
 bashFile="$HOME/.bashrc"
 alias vb="vim $bashFile"
@@ -44,6 +41,6 @@ alias r="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
 
 # help scripts
 helpScripts="$HOME/StunningFiles/Scripts"
-alias temp="$helpScripts/CopyTemplate.sh"
-alias dirr="$helpScripts/ReplaceInDir.sh"
-alias inv="$helpScripts/InVim.sh"
+alias temp="$helpScripts/copy_template.sh"
+alias dirr="$helpScripts/replace_in_dir.sh"
+alias inv="$helpScripts/in_vim.sh"

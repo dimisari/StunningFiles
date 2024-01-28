@@ -183,6 +183,11 @@ set noswapfile
   inoremap <expr> k pumvisible() ? "\<C-N>" : "k"
   inoremap <expr> l pumvisible() ? "\<C-P>" : "l"
 
+  "open and close all brackets automatically
+  inoremap ( ()<Esc>i
+  inoremap [ []<Esc>i
+  inoremap { {}<Esc>i
+
   "go to normal mode
   inoremap mk <Esc>
 
