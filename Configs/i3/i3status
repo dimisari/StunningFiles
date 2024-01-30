@@ -1,0 +1,26 @@
+general {
+        output_format = i3bar
+        colors = true
+        interval = 1
+}
+
+order += "tztime athens"
+order += "battery 0"
+
+battery 0 {
+        format = " %percentage%status🔋"
+        format_down = "No battery"
+        status_chr = "⚡"
+        status_bat = ""
+        status_unk = "starting⚡"
+        status_full = "☻"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+        last_full_capacity = true
+        integer_battery_capacity = true
+}
+
+tztime athens {
+        format = " %H:%M🕓 %d/%m🗓"
+        timezone = "Europe/Athens"
+}

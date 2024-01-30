@@ -1,7 +1,7 @@
-"make leftmost column some beautiful color + make column 84 red
+"make leftmost column some beautiful color + column 91 red
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
-set colorcolumn=84
+set colorcolumn=91
 
 "searh options:
 "  highlight search + while typing the search (incremental) +
@@ -20,7 +20,7 @@ set tabstop=2 expandtab shiftwidth=2
 "cursor that far
 set scrolloff=10
 
-"show where a line is broken because of hugeness with "-->" as the 3 first chars
+"show where a line is broken because of hugeness with "--->" as the 4 first chars
 "(cannot be reached by cursor)
 set showbreak=--->
 
@@ -48,11 +48,12 @@ set noswapfile
   "substitute (cursor char in normal mode, selected text in visual mode)
   noremap x s
 
-  "paste after/at cursor from clipboard (on top of selected text in visual mode)
+  "paste after/at cursor from clipboard (/on top of selected text in visual mode)
   noremap p "+p
   noremap P "+P
-  "space + p + letter => paste from register with that letter
+  "space + p/P + letter => paste from register with that letter: after/at cursor
   noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
+  noremap <expr> <Space>P "\"" . nr2char(getchar()) . "P" 
 
   "delete single character into clipboard
   nnoremap d "+x
@@ -63,6 +64,8 @@ set noswapfile
 
   "go to last char of line
   noremap z $
+  "toggle between opening and closing in all brackets
+  noremap <Space>; %
 
   "LOVE these
   "next/previous search match + center cursor vertically
@@ -75,7 +78,12 @@ set noswapfile
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
 
+  "comment/uncomment line (# comment)
+  noremap <C-c> I# <Esc>
+  noremap <C-u> 0d2l
+
   "down/up for huge lines that are broken
+  "(better to use gq to fix them but just in case)
   noremap gk gj
   noremap gl gk
 
@@ -132,12 +140,10 @@ set noswapfile
     nnoremap <Space>lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
     "begin and end verbatim + put cursor inside
-    nnoremap <Space>lv 
-      \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
+    nnoremap <Space>lv o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
 
     "begin and end itemize + put cursor inside
-    nnoremap <Space>li 
-      \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko<Esc>
+    nnoremap <Space>li o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko<Esc>
 
 "visual mode maps 
 
@@ -147,7 +153,7 @@ set noswapfile
   "search visually selected text
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
-  "replace something inside the viusally selected text
+  "replace something inside only inside the viusally selected text
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
@@ -164,7 +170,7 @@ set noswapfile
   vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
   "enclose visually selected text in paren
-  vnoremap <Space>b s(<c-r>")<Esc>
+  vnoremap <Space>e s(<c-r>")<Esc>
 
   "comment/uncomment selected text
     "Haskell
@@ -187,6 +193,7 @@ set noswapfile
   inoremap ( ()<Esc>i
   inoremap [ []<Esc>i
   inoremap { {}<Esc>i
+  inoremap < <><Esc>i
 
   "go to normal mode
   inoremap mk <Esc>
@@ -196,6 +203,7 @@ set noswapfile
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
+  cnoremap ; <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+
