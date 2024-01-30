@@ -5,13 +5,22 @@ set $alt Mod1
 set $win Mod4
 
 # bar font (also for window titles which I don't use)
-font pango:DejaVu Sans Mono 20
+font pango:DejaVu Sans Mono 30
 
 # window border
 default_border pixel 10
 
 # gaps between windows
 gaps inner 10
+
+bar {
+  status_command i3status --config $HOME/.config/i3status/config
+  separator_symbol " "
+  strip_workspace_numbers yes
+  colors {
+    background #0F4E50
+  }
+}
 
 ####################################################### Most Frequent
 #a s d f for convinience
@@ -42,23 +51,23 @@ bindsym $win+semicolon focus right
 # mode to move the selected window around inside the workspace
 bindsym $win+m mode "move"
 mode "move" {
-        bindsym j move left
-        bindsym k move down
-        bindsym l move up
-        bindsym semicolon move right
+  bindsym j move left
+  bindsym k move down
+  bindsym l move up
+  bindsym semicolon move right
 
-        bindsym space mode "default"
+  bindsym space mode "default"
 }
 
 # mode to resize the selected window
 bindsym $win+r mode "resize"
 mode "resize" {
-        bindsym j resize shrink width 5 px or 5 ppt
-        bindsym k resize grow height 5 px or 5 ppt
-        bindsym l resize shrink height 5 px or 5 ppt
-        bindsym semicolon resize grow width 5 px or 5 ppt
+  bindsym j resize shrink width 5 px or 5 ppt
+  bindsym k resize grow height 5 px or 5 ppt
+  bindsym l resize shrink height 5 px or 5 ppt
+  bindsym semicolon resize grow width 5 px or 5 ppt
 
-        bindsym space mode "default"
+  bindsym space mode "default"
 }
 
 # split the selected window horizontally/vertically when the a window is spawned
@@ -68,12 +77,12 @@ bindsym $alt+v split v
 ####################################################### Workspaces
 
 # Names
-set $ws1 "1👨‍💻terminal"
-set $ws2 "2🏄browser"
-set $ws3 "3📖pdf"
-set $ws4 "4📹youtube"
-set $ws5 "5💬signal/spotify"
-set $ws6 "6🤔other"
+set $ws1 "1👨‍💻"
+set $ws2 "2🏄"
+set $ws3 "3📖"
+set $ws4 "4📹"
+set $ws5 "5💬"
+set $ws6 "6🤔"
 
 # get into workspace mode and choose workspace with letter
 bindsym $alt+w mode "workspace"
@@ -107,11 +116,6 @@ mode "moveworkspace" {
   bindsym space mode "default"
 }
 
-####################################################### Bar
-
-bar {
-        status_command i3status --config $HOME/.config/i3status/config
-}
 
 ####################################################### Floating Windows
 
@@ -124,15 +128,25 @@ floating_modifier $alt
 # change focus between tiling / floating windows
 bindsym $win+space focus mode_toggle
 
-####################################################### Volume
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
 ####################################################### Startup
+
+######## mine
+# for round corners
+exec --no-startup-id picom
+
+# for background image
+exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
+
+# for languages
+exec_always setxkbmap -layout us,gr -option 'grp:alt_shift_toggle'
+
+# for automatically starting various apps in various workspaces
+exec --no-startup-id $HOME/StunningFiles/Scripts/i3msg.sh
+
+# mirror on my tv when I'm using hmdi
+exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
+
+######## not mine
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -148,16 +162,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # Manage wireless networks GUI
 exec --no-startup-id nm-applet
 
-exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
-
-exec --no-startup-id picom
-
-exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
-
-exec_always setxkbmap -layout us,gr -option 'grp:alt_shift_toggle'
-
-exec --no-startup-id $HOME/StunningFiles/Scripts/i3msg.sh
-
 ####################################################### i3
 
 # reload the configuration file
@@ -166,4 +170,12 @@ bindsym $alt+c reload
 bindsym $alt+r restart
 # exit i3 (logs you out of your X session)
 bindsym $alt+q exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+
+####################################################### Volume
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
