@@ -8,7 +8,7 @@ order += "tztime athens"
 order += "battery 0"
 
 battery 0 {
-        format = "%percentage%status🔋"
+        format = "🔋%percentage%status "
         format_down = "No battery"
         status_chr = "⚡"
         status_bat = ""
@@ -21,6 +21,6 @@ battery 0 {
 }
 
 tztime athens {
-        format = " %H:%M🕓 %d/%m🗓"
+        format = "🕓%H:%M  🗓%d/%m"
         timezone = "Europe/Athens"
 }

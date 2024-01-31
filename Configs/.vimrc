@@ -97,12 +97,14 @@ set noswapfile
 
   "save 
   nnoremap <Space>z :w<CR>
+
   "quit (without saving)
   nnoremap <Space>q :q!<CR>
 
   "space at/after cursor
   nnoremap <Space>i i<Space><Esc>
   nnoremap <Space>a a<Space><Esc>
+
   "empty line above/below cursor
   nnoremap <Space>O O<Esc>j
   nnoremap <Space>o o<Esc>k
@@ -114,6 +116,12 @@ set noswapfile
   "remove previous search highlighting
   nnoremap h :noh<CR>
 
+  "visually select all text inside 
+  "and including the next parentheses/square brackets/braces
+  nnoremap <Space>jp f(vab
+  nnoremap <Space>js f[va[
+  nnoremap <Space>jb f{va{
+
   "edit other file
   "(saves automatically to not have problems when deleting + pasting stuff)
   nnoremap <Space>e :w<CR>:e 
@@ -123,17 +131,15 @@ set noswapfile
   "to from there. I use this to switch fast. It's usually a commented area
   "at the bottom of the file so that I can combine it in with G.
 
-  "(vim) help on the word under the cursor 
-  nnoremap <Space>h K
-
-  "visually select all text inside 
-  "and including the next parentheses/square brackets/braces
-  nnoremap <Space>jp f(vab
-  nnoremap <Space>js f[va[
-  nnoremap <Space>jb f{va{
+  "increase/decrease int
+  noremap <Space>mi <C-a>
+  noremap <Space>md <C-x> 
 
   "select all
   nnoremap <C-a> ggVG
+
+  "(vim) help on the word under the cursor 
+  nnoremap <Space>h K
 
   "latex maps
     "reload pdf

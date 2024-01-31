@@ -13,17 +13,19 @@ default_border pixel 10
 # gaps between windows
 gaps inner 10
 
+# bar: - seperated with spaces - dont show workspace numbers - pretty background color
 bar {
   status_command i3status --config $HOME/.config/i3status/config
   separator_symbol " "
   strip_workspace_numbers yes
   colors {
     background #0F4E50
+    binding_mode       #2f343a #00A060 #ffffff
   }
 }
 
-####################################################### Most Frequent
-#a s d f for convinience
+####################################################### Do Stuff
+#a s d f for convenience
 
 # launch terminal
 bindsym $alt+a exec i3-sensible-terminal
@@ -40,17 +42,20 @@ bindsym $alt+f fullscreen toggle
 # launch some program (search bar)
 bindsym $alt+l exec "rofi -modi drun,run -show drun"
 
+# shutdown
+bindsym $alt+x exec shutdown now
+
 ####################################################### Windows
 
-# change selected window
+# change selected window within the workspace
 bindsym $win+j focus left
 bindsym $win+k focus down
 bindsym $win+l focus up
 bindsym $win+semicolon focus right
 
-# mode to move the selected window around inside the workspace
-bindsym $win+m mode "move"
-mode "move" {
+# mode to move the selected window around the workspace
+bindsym $win+m mode "move around within workspace"
+mode "move around within workspace" {
   bindsym j move left
   bindsym k move down
   bindsym l move up
@@ -70,21 +75,22 @@ mode "resize" {
   bindsym space mode "default"
 }
 
-# split the selected window horizontally/vertically when the a window is spawned
+# split the selected window horizontally/vertically when a new window is spawned
 bindsym $alt+h split h
 bindsym $alt+v split v
 
 ####################################################### Workspaces
 
-# Names
+# Numbers and emojis
 set $ws1 "1👨‍💻"
-set $ws2 "2🏄"
+set $ws2 "2👨‍💻"
 set $ws3 "3📖"
-set $ws4 "4📹"
-set $ws5 "5💬"
-set $ws6 "6🤔"
+set $ws4 "4🏄"
+set $ws5 "5📹"
+set $ws6 "6💬"
+set $ws7 "7🤔"
 
-# get into workspace mode and choose workspace with letter
+# workspace mode and choose workspace with number
 bindsym $alt+w mode "workspace"
 mode "workspace" {
   bindsym 1 workspace $ws1 mode "default"
@@ -93,6 +99,7 @@ mode "workspace" {
   bindsym 4 workspace $ws4 mode "default"
   bindsym 5 workspace $ws5 mode "default"
   bindsym 6 workspace $ws6 mode "default"
+  bindsym 7 workspace $ws7 mode "default"
 
   bindsym space mode "default"
 }
@@ -101,15 +108,18 @@ mode "workspace" {
 bindsym $alt+j workspace prev_on_output
 bindsym $alt+semicolon workspace next_on_output
 
-# get into workspace mode and choose workspace with letter
-bindsym $alt+m mode "moveworkspace"
-mode "moveworkspace" {
+# moveworkspace mode to move the selected window into another workspace
+# - immediately by specific number
+# - j/; for next/previous and space when it's the correct workspace
+bindsym $alt+m mode "move through workspaces"
+mode "move through workspaces" {
   bindsym 1 move container to workspace $ws1 workspace $ws1 mode "default"
   bindsym 2 move container to workspace $ws2 workspace $ws2 mode "default"
   bindsym 3 move container to workspace $ws3 workspace $ws3 mode "default"
   bindsym 4 move container to workspace $ws4 workspace $ws4 mode "default"
   bindsym 5 move container to workspace $ws5 workspace $ws5 mode "default"
   bindsym 6 move container to workspace $ws6 workspace $ws6 mode "default"
+  bindsym 7 move container to workspace $ws7 workspace $ws7 mode "default"
 
   bindsym j move container to workspace prev_on_output workspace prev_on_output
   bindsym semicolon move container to workspace next_on_output workspace next_on_output
@@ -122,31 +132,58 @@ mode "moveworkspace" {
 # toggle tiling / floating
 bindsym $win+f floating toggle
 
-# drag floating windows wtih $alt+Mouse 
+# move floating windows wtih the mouse by having the alt key pressed
 floating_modifier $alt
 
 # change focus between tiling / floating windows
 bindsym $win+space focus mode_toggle
 
+####################################################### Sound/Brightness
+
+set $refresh_i3status killall -SIGUSR1 i3status
+
+bindsym $alt+c mode "control sound and brightness"
+mode "control sound and brightness" {
+  #mute
+  bindsym m \
+    exec --no-startup-id "pactl set-sink-mute @DEFAULT_SINK@ toggle &&  $refresh_i3status" \
+    mode "default"
+
+  #lower/increase volume
+  bindsym j \
+    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% &&  $refresh_i3status
+  bindsym semicolon \
+    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% &&  $refresh_i3status
+
+  # lower/increase brightness
+  bindsym k exec --no-startup-id brightnessctl set 10%- intel_backlight
+  bindsym l exec --no-startup-id brightnessctl set +10% intel_backlight
+
+  bindsym space mode "default"
+}
+
 ####################################################### Startup
 
-######## mine
+################ mine
+
 # for round corners
 exec --no-startup-id picom
 
 # for background image
 exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
 
-# for languages
+# for languages: greek and english
 exec_always setxkbmap -layout us,gr -option 'grp:alt_shift_toggle'
 
 # for automatically starting various apps in various workspaces
 exec --no-startup-id $HOME/StunningFiles/Scripts/i3msg.sh
 
-# mirror on my tv when I'm using hmdi
+# mirror on tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
 
-######## not mine
+# volume icon
+exec --no-startup-id volumeicon
+################ not mine
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -164,18 +201,10 @@ exec --no-startup-id nm-applet
 
 ####################################################### i3
 
-# reload the configuration file
-bindsym $alt+c reload
-# restart i3 inplace (don't know, seems the same as relod to me but let's keep it)
+# restart i3 inplace
 bindsym $alt+r restart
+# reload the configuration file
+# bindsym $alt+c reload
 # exit i3 (logs you out of your X session)
 bindsym $alt+q exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
-
-####################################################### Volume
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
