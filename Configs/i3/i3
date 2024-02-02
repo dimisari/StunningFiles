@@ -1,32 +1,42 @@
-####################################################### Keys and Styling
 
 # alt and windows keys
 set $alt Mod1
 set $win Mod4
+set $scripts $HOME/StunningFiles/Scripts/i3msg
 
-# bar font (also for window titles which I don't use)
-font pango:DejaVu Sans Mono 30
+####################################################### Styling
 
 # window border
-default_border pixel 10
+default_border pixel 20
 
 # gaps between windows
 gaps inner 10
 
-# bar: - seperated with spaces - dont show workspace numbers - pretty background color
+# bar
 bar {
+  # call i3status with configs
   status_command i3status --config $HOME/.config/i3status/config
+
+  # font
+  font pango:DejaVu Sans Mono 36
+
+  # seperate things with spaces, dont show workspace numbers
   separator_symbol " "
   strip_workspace_numbers yes
+
+  # pretty background & mode color
   colors {
     background #0F4E50
-    binding_mode       #2f343a #00A060 #ffffff
+    binding_mode #2f343a #480835 #ffffff
   }
+
+  tray_padding 10
+  padding 10 80
 }
 
 ####################################################### Do Stuff
-#a s d f for convenience
 
+#a s d f for convenience
 # launch terminal
 bindsym $alt+a exec i3-sensible-terminal
 
@@ -39,23 +49,31 @@ bindsym $alt+d kill
 # toggle fullscreen
 bindsym $alt+f fullscreen toggle
 
-# launch some program (search bar)
-bindsym $alt+l exec "rofi -modi drun,run -show drun"
 
-# shutdown
-bindsym $alt+x exec shutdown now
+# launch some program (search bar)
+bindsym $win+l exec "rofi -modi drun,run -show drun"
+
+# screenshot
+bindsym Print exec gnome-screenshot -i 
+
+# quite laptop (aka shut down)
+bindsym $alt+q exec shutdown now
 
 ####################################################### Windows
 
 # change selected window within the workspace
-bindsym $win+j focus left
-bindsym $win+k focus down
-bindsym $win+l focus up
-bindsym $win+semicolon focus right
+bindsym $alt+j focus left
+bindsym $alt+k focus down
+bindsym $alt+l focus up
+bindsym $alt+semicolon focus right
 
-# mode to move the selected window around the workspace
-bindsym $win+m mode "move around within workspace"
-mode "move around within workspace" {
+############################################
+# all modes can be exited by hitting space #
+############################################
+
+# mode to _m_ove the selected window around within the workspace
+bindsym $alt+m mode "move around here"
+mode "move around here" {
   bindsym j move left
   bindsym k move down
   bindsym l move up
@@ -64,9 +82,9 @@ mode "move around within workspace" {
   bindsym space mode "default"
 }
 
-# mode to resize the selected window
-bindsym $win+r mode "resize"
-mode "resize" {
+# mode to (re)_s_ize the selected window
+bindsym $win+s mode "(re)size window"
+mode "(re)size window" {
   bindsym j resize shrink width 5 px or 5 ppt
   bindsym k resize grow height 5 px or 5 ppt
   bindsym l resize shrink height 5 px or 5 ppt
@@ -81,7 +99,7 @@ bindsym $alt+v split v
 
 ####################################################### Workspaces
 
-# Numbers and emojis
+# names: numbers and emojis
 set $ws1 "1👨‍💻"
 set $ws2 "2👨‍💻"
 set $ws3 "3📖"
@@ -90,9 +108,13 @@ set $ws5 "5📹"
 set $ws6 "6💬"
 set $ws7 "7🤔"
 
-# workspace mode and choose workspace with number
-bindsym $alt+w mode "workspace"
-mode "workspace" {
+# go to previous/next workspace
+bindsym $win+j workspace prev_on_output
+bindsym $win+semicolon workspace next_on_output
+
+# choose _w_orkspace with number, space to abort
+bindsym $alt+w mode "choose workspace"
+mode "choose workspace" {
   bindsym 1 workspace $ws1 mode "default"
   bindsym 2 workspace $ws2 mode "default"
   bindsym 3 workspace $ws3 mode "default"
@@ -104,15 +126,31 @@ mode "workspace" {
   bindsym space mode "default"
 }
 
-# go to next/previous workspace
-bindsym $alt+j workspace prev_on_output
-bindsym $alt+semicolon workspace next_on_output
+# _b_uild workspace with number, space to abort (go + auto open some windows)
+bindsym $alt+b mode "begin workspace"
+mode "begin workspace" {
+  bindsym 1 workspace $ws1;\
+    exec i3-sensible-terminal; exec i3-sensible-terminal; mode "default"
+  bindsym 2 workspace $ws2;\
+    exec $scripts/open_tasks.sh; exec "sleep 1.5; exec i3-sensible-terminal";\
+    mode "default"
+  bindsym 3 workspace $ws3; exec $scripts/pdf.sh; mode "default"
+  bindsym 4 workspace $ws4;\
+    exec "brave-browser --password-store=basic --new-window gmail.com";\
+    mode "default"
+  bindsym 5 workspace $ws5;\
+    exec "brave-browser --password-store=basic --new-window youtube.com";\
+    mode "default"
+  bindsym 6 workspace $ws6; exec signal-desktop; mode "default"
 
-# moveworkspace mode to move the selected window into another workspace
+  bindsym space mode "default"
+}
+
+# mode to _m_ove the selected window through other workspaces
 # - immediately by specific number
 # - j/; for next/previous and space when it's the correct workspace
-bindsym $alt+m mode "move through workspaces"
-mode "move through workspaces" {
+bindsym $win+m mode "move outside"
+mode "move outside" {
   bindsym 1 move container to workspace $ws1 workspace $ws1 mode "default"
   bindsym 2 move container to workspace $ws2 workspace $ws2 mode "default"
   bindsym 3 move container to workspace $ws3 workspace $ws3 mode "default"
@@ -140,20 +178,16 @@ bindsym $win+space focus mode_toggle
 
 ####################################################### Sound/Brightness
 
-set $refresh_i3status killall -SIGUSR1 i3status
-
-bindsym $alt+c mode "control sound and brightness"
-mode "control sound and brightness" {
-  #mute
+# mode to _c_ontrol sound and brighness levels
+bindsym $alt+c mode "sound+brightness"
+mode "sound+brightness" {
+  # mute (and go to default mode)
   bindsym m \
-    exec --no-startup-id "pactl set-sink-mute @DEFAULT_SINK@ toggle &&  $refresh_i3status" \
-    mode "default"
+    exec --no-startup-id "pactl set-sink-mute @DEFAULT_SINK@ toggle" mode "default"
 
   #lower/increase volume
-  bindsym j \
-    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% &&  $refresh_i3status
-  bindsym semicolon \
-    exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% &&  $refresh_i3status
+  bindsym j exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
+  bindsym semicolon exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
 
   # lower/increase brightness
   bindsym k exec --no-startup-id brightnessctl set 10%- intel_backlight
@@ -164,7 +198,7 @@ mode "control sound and brightness" {
 
 ####################################################### Startup
 
-################ mine
+############################################ mine
 
 # for round corners
 exec --no-startup-id picom
@@ -172,39 +206,33 @@ exec --no-startup-id picom
 # for background image
 exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
 
-# for languages: greek and english
-exec_always setxkbmap -layout us,gr -option 'grp:alt_shift_toggle'
-
 # for automatically starting various apps in various workspaces
-exec --no-startup-id $HOME/StunningFiles/Scripts/i3msg.sh
+exec --no-startup-id $scripts/i3msg.sh
+
+# for languages: greek and english + toggle with alt shift
+exec_always --no-startup-id  setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
+
+# volume icon
+exec --no-startup-id volumeicon
 
 # mirror on tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
 
-# volume icon
-exec --no-startup-id volumeicon
-################ not mine
+############################################ not mine
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
+# manage wireless networks GUI
+exec --no-startup-id nm-applet
+
+# autostart some stuff (dont ask me 🤷)
 exec --no-startup-id dex --autostart --environment i3
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
+# locking some stuff (dont ask me 🤷)
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# Manage wireless networks GUI
-exec --no-startup-id nm-applet
 
 ####################################################### i3
 
 # restart i3 inplace
 bindsym $alt+r restart
-# reload the configuration file
-# bindsym $alt+c reload
-# exit i3 (logs you out of your X session)
-bindsym $alt+q exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# exit i3 (logs you out of your X session)
+bindsym $alt+e exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"

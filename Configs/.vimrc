@@ -1,12 +1,16 @@
-"make leftmost column some beautiful color + column 91 red
+"make leftmost column some beautiful color + column 85 red
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
-set colorcolumn=91
+set colorcolumn=85
+
+"numbers + all except current line relative to current line
+set number relativenumber
 
 "searh options:
 "  highlight search + while typing the search (incremental) +
+set hlsearch incsearch
 "  case insensitive (ignore) + become case sensitive in capital letters (smart)
-set hlsearch incsearch ignorecase smartcase
+set ignorecase smartcase
 
 "self explanatory and awesome
 set autoindent 
@@ -63,7 +67,7 @@ set noswapfile
   nnoremap D "+dd
 
   "go to last char of line
-  noremap z $
+  noremap <Space>x $h
   "toggle between opening and closing in all brackets
   noremap <Space>; %
 

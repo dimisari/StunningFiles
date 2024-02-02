@@ -1,6 +1,5 @@
 general {
         output_format = i3bar
-        colors = true
         interval = 1
 }
 
@@ -8,7 +7,7 @@ order += "tztime athens"
 order += "battery 0"
 
 battery 0 {
-        format = "🔋%percentage%status "
+        format = "🔋%percentage%status"
         format_down = "No battery"
         status_chr = "⚡"
         status_bat = ""
