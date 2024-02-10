@@ -21,6 +21,8 @@ alias mc_="make clean_"
 alias ..="cd .."
 alias gr="grep -rn"
 alias sai="sudo apt install"
+alias run="./run"
+alias clean="./clean"
 
 # haskell 
 alias cb="cabal build"

@@ -1,15 +1,16 @@
 #!/bin/bash
 
 backups="$HOME/.configBackups"
-mkdir $backups
+config="$HOME/.config"
 
-for file in .vimrc .bashrc .bash_aliases
+mkdir $backups
+for file in $HOME/.vimrc $HOME/.bashrc $HOME/.bash_aliases $config/i3/config \
+            $config/picom/picom.conf
 do
   mv -f $HOME/$file $backups
 done
 
-cd ../Configs
-stunningConfigs="$(pwd)"
+stunningConfigs="$(cd $(dirname $0)/../../Configs && pwd)"
 
 for file in .vimrc bash/.bashrc bash/.bash_aliases
 do

@@ -1,5 +1,5 @@
 
-# alt and windows keys
+# alt and windows keys + script directory
 set $alt Mod1
 set $win Mod4
 set $scripts $HOME/StunningFiles/Scripts/i3msg
@@ -7,73 +7,66 @@ set $scripts $HOME/StunningFiles/Scripts/i3msg
 ####################################################### Styling
 
 # window border
-default_border pixel 20
+default_border pixel 25
 
 # gaps between windows
-gaps inner 10
-
-# bar
-bar {
-  # call i3status with configs
-  status_command i3status --config $HOME/.config/i3status/config
-
-  # font
-  font pango:DejaVu Sans Mono 36
-
-  # seperate things with spaces, dont show workspace numbers
-  separator_symbol " "
-  strip_workspace_numbers yes
-
-  # pretty background & mode color
-  colors {
-    background #0F4E50
-    binding_mode #2f343a #480835 #ffffff
-  }
-
-  tray_padding 10
-  padding 10 80
-}
+gaps inner 25
+gaps top 80
+gaps bottom 115
 
 ####################################################### Do Stuff
 
-#a s d f for convenience
+# a s d f and l k for convenience
 # launch terminal
 bindsym $alt+a exec i3-sensible-terminal
 
 # launch brave
 bindsym $alt+s exec brave-browser
 
-# close selected window
-bindsym $alt+d kill
+# close (aka _d_elete) whole workspace
+bindsym $alt+d focus parent,kill
 
-# toggle fullscreen
+# toggle _f_ullscreen
 bindsym $alt+f fullscreen toggle
 
 
-# launch some program (search bar)
-bindsym $win+l exec "rofi -modi drun,run -show drun"
+# _l_aunch some program (search bar)
+bindsym $alt+l exec "rofi -modi drun,run -show drun"
+
+# close (aka _k_ill for the vulgar) selected window
+bindsym $alt+k kill
+
 
 # screenshot
 bindsym Print exec gnome-screenshot -i 
 
-# quite laptop (aka shut down)
+# _q_uit laptop (aka shut down)
 bindsym $alt+q exec shutdown now
 
 ####################################################### Windows
 
-# change selected window within the workspace
-bindsym $alt+j focus left
-bindsym $alt+k focus down
-bindsym $alt+l focus up
-bindsym $alt+semicolon focus right
+##########################################################
+##########################################################
+####                                                  ####
+####     all modes can be exited by hitting space     ####
+####                                                  ####
+##########################################################
+##########################################################
 
-############################################
-# all modes can be exited by hitting space #
-############################################
+# choose w_i_ndow the selected window around within the workspace
+bindsym $alt+i mode "choose w_i_ndow"
+mode "choose w_i_ndow" {
+  bindsym j focus left
+  bindsym k focus down
+  bindsym l focus up
+  bindsym semicolon focus right
+
+  bindsym space mode "default"
+}
 
 # mode to _m_ove the selected window around within the workspace
-bindsym $alt+m mode "move around here"
-mode "move around here" {
+bindsym $alt+m mode "_m_ove around here"
+mode "_m_ove around here" {
   bindsym j move left
   bindsym k move down
   bindsym l move up
@@ -82,39 +75,44 @@ mode "move around here" {
   bindsym space mode "default"
 }
 
-# mode to (re)_s_ize the selected window
-bindsym $win+s mode "(re)size window"
-mode "(re)size window" {
-  bindsym j resize shrink width 5 px or 5 ppt
-  bindsym k resize grow height 5 px or 5 ppt
-  bindsym l resize shrink height 5 px or 5 ppt
-  bindsym semicolon resize grow width 5 px or 5 ppt
+# mode to _r_esize the selected window
+bindsym $alt+r mode "_r_esize window"
+mode "_r_esize window" {
+  bindsym j resize shrink width 8 px or 8 ppt
+  bindsym k resize grow height 8 px or 8 ppt
+  bindsym l resize shrink height 8 px or 8 ppt
+  bindsym semicolon resize grow width 8 px or 8 ppt
 
   bindsym space mode "default"
 }
 
-# split the selected window horizontally/vertically when a new window is spawned
+# _t_oggle 2 windows
+#   (really it's focus next right but I mostly use is for toggling)
+bindsym $alt+t focus right
+
+# split the selected window horizontally/vertically when for new window
 bindsym $alt+h split h
 bindsym $alt+v split v
 
 ####################################################### Workspaces
 
 # names: numbers and emojis
-set $ws1 "1👨‍💻"
-set $ws2 "2👨‍💻"
-set $ws3 "3📖"
-set $ws4 "4🏄"
-set $ws5 "5📹"
-set $ws6 "6💬"
-set $ws7 "7🤔"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
 
 # go to previous/next workspace
-bindsym $win+j workspace prev_on_output
-bindsym $win+semicolon workspace next_on_output
+bindsym $alt+j workspace prev_on_output
+bindsym $alt+semicolon workspace next_on_output
 
-# choose _w_orkspace with number, space to abort
-bindsym $alt+w mode "choose workspace"
-mode "choose workspace" {
+# choose w_o_rkspace with number
+bindsym $alt+o mode "choose w_o_rkspace"
+mode "choose w_o_rkspace" {
   bindsym 1 workspace $ws1 mode "default"
   bindsym 2 workspace $ws2 mode "default"
   bindsym 3 workspace $ws3 mode "default"
@@ -122,13 +120,18 @@ mode "choose workspace" {
   bindsym 5 workspace $ws5 mode "default"
   bindsym 6 workspace $ws6 mode "default"
   bindsym 7 workspace $ws7 mode "default"
+  bindsym 8 workspace $ws8 mode "default"
+
+  # go to previous/next workspace
+  bindsym j workspace prev_on_output
+  bindsym semicolon workspace next_on_output
 
   bindsym space mode "default"
 }
 
-# _b_uild workspace with number, space to abort (go + auto open some windows)
-bindsym $alt+b mode "begin workspace"
-mode "begin workspace" {
+# _b_uild workspace with number (go + automatically open corresponding windows) 
+bindsym $alt+b mode "build workspace"
+mode "build workspace" {
   bindsym 1 workspace $ws1;\
     exec i3-sensible-terminal; exec i3-sensible-terminal; mode "default"
   bindsym 2 workspace $ws2;\
@@ -142,6 +145,7 @@ mode "begin workspace" {
     exec "brave-browser --password-store=basic --new-window youtube.com";\
     mode "default"
   bindsym 6 workspace $ws6; exec signal-desktop; mode "default"
+  bindsym 7 workspace $ws7; exec flatpak run com.spotify.Client; mode "default"
 
   bindsym space mode "default"
 }
@@ -149,8 +153,8 @@ mode "begin workspace" {
 # mode to _m_ove the selected window through other workspaces
 # - immediately by specific number
 # - j/; for next/previous and space when it's the correct workspace
-bindsym $win+m mode "move outside"
-mode "move outside" {
+bindsym $win+m mode "_m_ove outside"
+mode "_m_ove outside" {
   bindsym 1 move container to workspace $ws1 workspace $ws1 mode "default"
   bindsym 2 move container to workspace $ws2 workspace $ws2 mode "default"
   bindsym 3 move container to workspace $ws3 workspace $ws3 mode "default"
@@ -158,23 +162,15 @@ mode "move outside" {
   bindsym 5 move container to workspace $ws5 workspace $ws5 mode "default"
   bindsym 6 move container to workspace $ws6 workspace $ws6 mode "default"
   bindsym 7 move container to workspace $ws7 workspace $ws7 mode "default"
+  bindsym 8 move container to workspace $ws8 workspace $ws8 mode "default"
 
-  bindsym j move container to workspace prev_on_output workspace prev_on_output
-  bindsym semicolon move container to workspace next_on_output workspace next_on_output
+  bindsym j \
+    move container to workspace prev_on_output workspace prev_on_output
+  bindsym semicolon \
+    move container to workspace next_on_output workspace next_on_output
   bindsym space mode "default"
 }
 
-
-####################################################### Floating Windows
-
-# toggle tiling / floating
-bindsym $win+f floating toggle
-
-# move floating windows wtih the mouse by having the alt key pressed
-floating_modifier $alt
-
-# change focus between tiling / floating windows
-bindsym $win+space focus mode_toggle
 
 ####################################################### Sound/Brightness
 
@@ -183,11 +179,13 @@ bindsym $alt+c mode "sound+brightness"
 mode "sound+brightness" {
   # mute (and go to default mode)
   bindsym m \
-    exec --no-startup-id "pactl set-sink-mute @DEFAULT_SINK@ toggle" mode "default"
+    exec --no-startup-id \
+      "pactl set-sink-mute @DEFAULT_SINK@ toggle" mode "default"
 
-  #lower/increase volume
+  # lower/increase volume
   bindsym j exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
-  bindsym semicolon exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
+  bindsym semicolon exec --no-startup-id \
+    pactl set-sink-volume @DEFAULT_SINK@ +10%
 
   # lower/increase brightness
   bindsym k exec --no-startup-id brightnessctl set 10%- intel_backlight
@@ -200,6 +198,9 @@ mode "sound+brightness" {
 
 ############################################ mine
 
+# polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 # for round corners
 exec --no-startup-id picom
 
@@ -210,10 +211,11 @@ exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
 exec --no-startup-id $scripts/i3msg.sh
 
 # for languages: greek and english + toggle with alt shift
-exec_always --no-startup-id  setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
+exec_always --no-startup-id \
+  setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
 
 # volume icon
-exec --no-startup-id volumeicon
+# exec --no-startup-id volumeicon
 
 # mirror on tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
@@ -221,7 +223,7 @@ exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
 ############################################ not mine
 
 # manage wireless networks GUI
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 
 # autostart some stuff (dont ask me 🤷)
 exec --no-startup-id dex --autostart --environment i3
@@ -229,10 +231,21 @@ exec --no-startup-id dex --autostart --environment i3
 # locking some stuff (dont ask me 🤷)
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+####################################################### Floating Windows
+
+# toggle tiling / floating
+bindsym $win+f floating toggle
+
+# move floating windows wtih the mouse by having the alt key pressed
+floating_modifier $alt
+
+# change focus between tiling / floating windows
+bindsym $win+space focus mode_toggle
+
 ####################################################### i3
 
 # restart i3 inplace
-bindsym $alt+r restart
+bindsym $win+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $alt+e exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $alt+e exec i3-msg exit

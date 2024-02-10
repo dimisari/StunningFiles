@@ -1,115 +1,130 @@
-"make leftmost column some beautiful color + column 85 red
+"make leftmost column some beautiful color +
+"  column 80 red (and scary. don't go)
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
-set colorcolumn=85
-
-"numbers + all except current line relative to current line
-set number relativenumber
+set colorcolumn=80
 
 "searh options:
-"  highlight search + while typing the search (incremental) +
+"  _h_igh_l_ight _search_ + while typing the search (_inc_rementally) +
 set hlsearch incsearch
-"  case insensitive (ignore) + become case sensitive in capital letters (smart)
+"  _case_ insensitive (_ignore_) +
+"  become case sensitive in capital letters (_smart_)
 set ignorecase smartcase
 
 "self explanatory and awesome
 set autoindent 
 
 "tab options:
-"  it is 2 spaces + make it actual spaces (expand) +
-"  autoindent inside multiline paren expr is also 2 spaces 
+"  it is 2 spaces + make it actual spaces (_expand_) +
+"  audo _shift(width)_ (e.g. inside multiline) paren expr is also 2 spaces 
 set tabstop=2 expandtab shiftwidth=2
 
-"start scrolling 10 lines before hitting any edge because why would you want your 
-"cursor that far
+"start _scroll_ing 10 lines before hitting any edge (_off_set)
+"because why would you want your cursor that far
 set scrolloff=10
 
-"show where a line is broken because of hugeness with "--->" as the 4 first chars
-"(cannot be reached by cursor)
+"_show_ where a line is broken(_break_) because of hugeness
+"with "--->" as the 4 first chars (cannot be reached by cursor)
 set showbreak=--->
 
-"show number of selected characters in visual mode
+"_show_ number of selected characters in visual mode
+"  (among other things it seems)
 set showcmd
 
-"disable swap files
+"disable swap files (saved my life)
 set noswapfile
 
-"You'll probably need :help key-notation 
-"If system clipboard copy and paste don't work install vim-gtk
+"not sure I like it. Maybe pull it up only when needed
+"set number relativenumber
 
-"Always noremap so that I don't use macros inside macros and confuse myself I guess
+"You'll probably need -> :help key-notation
+
+"If system clipboard copy and paste don't work: sudo apt intall vim-gtk
+"  (if not in debian-based distro figure it out by yourself)
+
+"Always noremap so that I don't use macros inside macros and
+"  confuse myself I guess
 
 "general maps (I believe that means normal + visual mode)
 
-  "left/down/up/right for normal people who follow the standard typing guidelines
+  "left/down/up/right for normal people
+  "  that follow the standard typing guidelines
   noremap j h
   noremap k j
   noremap l k
   noremap ; l
 
-  "search
+  "_s_earch
   noremap s /
   "substitute (cursor char in normal mode, selected text in visual mode)
   noremap x s
 
-  "paste after/at cursor from clipboard (/on top of selected text in visual mode)
+  "_p/P_aste after/at cursor from clipboard
+  "  or on top of selected text if in visual mode
   noremap p "+p
   noremap P "+P
-  "space + p/P + letter => paste from register with that letter: after/at cursor
+  "space + p/P + letter
+  "  => _p/P_aste from register with that letter: after/at cursor
   noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
   noremap <expr> <Space>P "\"" . nr2char(getchar()) . "P" 
 
-  "delete single character into clipboard
-  nnoremap d "+x
-  "copy line
-  nnoremap c "+yy
-  "delete line into clipboard
-  nnoremap D "+dd
-
+  "go to first char of line
+  noremap K ^
   "go to last char of line
-  noremap <Space>x $h
+  noremap L $h
   "toggle between opening and closing in all brackets
-  noremap <Space>; %
+  noremap zk %
+  "same (I like differentiating in by brain, it's still just toggle)
+  noremap zl %
 
   "LOVE these
-  "next/previous search match + center cursor vertically
+  "  next/previous search match + center cursor vertically
   noremap n nzz
   noremap N Nzz
-  "paragraph down/up (next or previous empty line) + center cursor vertically
-  noremap K }zz
-  noremap L {zz
-  "half page down/up + center cursor vertically
+  "  paragraph down/up (next or previous empty line) + center cursor vertically
+  noremap <Space>k }zz
+  noremap <Space>l {zz
+  "  half page down/up + center cursor vertically
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
 
-  "comment/uncomment line (# comment)
+  "_c_omment/_u_ncomment line (# comment)
   noremap <C-c> I# <Esc>
   noremap <C-u> 0d2l
 
   "down/up for huge lines that are broken
-  "(better to use gq to fix them but just in case)
+  "  (better to use gq to fix them but just in case)
   noremap gk gj
   noremap gl gk
 
 "normal mode maps 
 
-  "replace all occurences of word under cursor with ...
+  "_c_opy line into system clipboard
+  nnoremap c "+yy
+
+  "_D_elete line (into system clipboard)
+  nnoremap D "+dd
+
+  "_d_elete single character (into system clipboard)
+  nnoremap d "+x
+
+  "_r_eplace all occurences of word under cursor with ...
   nnoremap r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-  "search word under cursor + center cursor vertically
+  "_s_earch word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
 
   "save 
   nnoremap <Space>z :w<CR>
 
-  "quit (without saving)
+  "_q_uit (without saving)
   nnoremap <Space>q :q!<CR>
 
-  "space at/after cursor
+  "add space at/after cursor
   nnoremap <Space>i i<Space><Esc>
   nnoremap <Space>a a<Space><Esc>
 
-  "empty line above/below cursor
+  "add empty line above/below cursor
   nnoremap <Space>O O<Esc>j
   nnoremap <Space>o o<Esc>k
 
@@ -117,13 +132,15 @@ set noswapfile
   nnoremap <Space>> <C-v>>
   nnoremap <Space>< <C-v><
 
-  "remove previous search highlighting
+  "remove previous search _h_ighlighting
   nnoremap h :noh<CR>
 
-  "visually select all text inside 
-  "and including the next parentheses/square brackets/braces
+  "visually select all text inside and including the next:
+  "  _p_arentheses
   nnoremap <Space>jp f(vab
+  "  _s_quare brackets
   nnoremap <Space>js f[va[
+  "  _b_races
   nnoremap <Space>jb f{va{
 
   "edit other file
@@ -147,13 +164,15 @@ set noswapfile
 
   "latex maps
     "reload pdf
-    nnoremap <Space>lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
+    nnoremap <Space>Lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
     "begin and end verbatim + put cursor inside
-    nnoremap <Space>lv o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
+    nnoremap <Space>Lv 
+      \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
 
     "begin and end itemize + put cursor inside
-    nnoremap <Space>li o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko<Esc>
+    nnoremap <Space>Li 
+      \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
 
 "visual mode maps 
 
@@ -179,8 +198,13 @@ set noswapfile
   "space + c + letter => copy visually selected text to register with that letter
   vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
-  "enclose visually selected text in paren
-  vnoremap <Space>e s(<c-r>")<Esc>
+  "enclose visually selected text in () [] {} <> "" '' 
+  vnoremap <Space>ep s(<c-r>")<Esc>%
+  vnoremap <Space>es s[<c-r>"]<Esc>%
+  vnoremap <Space>eb s{<c-r>"}<Esc>%
+  vnoremap <Space>e< s<<c-r>"><Esc>%
+  vnoremap <Space>e" s"<c-r>""<Esc>%
+  vnoremap <Space>e' s'<c-r>"'<Esc>%
 
   "comment/uncomment selected text
     "Haskell
@@ -199,11 +223,13 @@ set noswapfile
   inoremap <expr> k pumvisible() ? "\<C-N>" : "k"
   inoremap <expr> l pumvisible() ? "\<C-P>" : "l"
 
-  "open and close all brackets automatically
+  "open and close automatically () [] {} <> "" ''
   inoremap ( ()<Esc>i
   inoremap [ []<Esc>i
   inoremap { {}<Esc>i
   inoremap < <><Esc>i
+  inoremap " ""<Esc>i
+  inoremap ' ''<Esc>i
 
   "go to normal mode
   inoremap mk <Esc>
@@ -213,7 +239,7 @@ set noswapfile
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
-  cnoremap ; <CR>
+  cnoremap ;; <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+
