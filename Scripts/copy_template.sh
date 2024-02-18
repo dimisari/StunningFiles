@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tmps="$HOME/StunningFiles/Templates"
+tmps=$(cd $(dirname $0)/../Templates && pwd)
 
 case $1 in
   Makefile) cp Files/5Makefile $1;;

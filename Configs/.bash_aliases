@@ -42,6 +42,7 @@ alias dck="docker-compose kill"
 
 # stay in same dir after ranger exit
 alias r="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
+alias ρ="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
 
 # help scripts
 helpScripts="$HOME/StunningFiles/Scripts"

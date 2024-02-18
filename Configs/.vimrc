@@ -1,11 +1,11 @@
 "make leftmost column some beautiful color +
-"  column 80 red (and scary. don't go)
+"column 80 red (and scary. don't go)
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
 set colorcolumn=80
 
 "searh options:
-"  _h_igh_l_ight _search_ + while typing the search (_inc_rementally) +
+"  _h_igh_l_ight _search_ + while typing the search (_inc_rementally)
 set hlsearch incsearch
 "  _case_ insensitive (_ignore_) +
 "  become case sensitive in capital letters (_smart_)
@@ -16,10 +16,10 @@ set autoindent
 
 "tab options:
 "  it is 2 spaces + make it actual spaces (_expand_) +
-"  audo _shift(width)_ (e.g. inside multiline) paren expr is also 2 spaces 
+"  auto _shift(width)_ (e.g. inside multiline paren expr) is also 2 spaces 
 set tabstop=2 expandtab shiftwidth=2
 
-"start _scroll_ing 10 lines before hitting any edge (_off_set)
+"start _scroll_ing 10 lines (_off_set) before hitting any edge
 "because why would you want your cursor that far
 set scrolloff=10
 
@@ -33,9 +33,6 @@ set showcmd
 
 "disable swap files (saved my life)
 set noswapfile
-
-"not sure I like it. Maybe pull it up only when needed
-"set number relativenumber
 
 "You'll probably need -> :help key-notation
 
@@ -56,7 +53,7 @@ set noswapfile
 
   "_s_earch
   noremap s /
-  "substitute (cursor char in normal mode, selected text in visual mode)
+  "x: delete and get into insert mode (deletes cursor char in normal mode)
   noremap x s
 
   "_p/P_aste after/at cursor from clipboard
@@ -89,7 +86,7 @@ set noswapfile
   noremap <C-l> <C-u>zz
 
   "_c_omment/_u_ncomment line (# comment)
-  noremap <C-c> I# <Esc>
+  noremap <C-c> 0i# <Esc>
   noremap <C-u> 0d2l
 
   "down/up for huge lines that are broken
@@ -142,6 +139,10 @@ set noswapfile
   nnoremap <Space>js f[va[
   "  _b_races
   nnoremap <Space>jb f{va{
+  "  double quotes
+  nnoremap <Space>j" f"va"
+  "  single quotes
+  nnoremap <Space>j' f'va'
 
   "edit other file
   "(saves automatically to not have problems when deleting + pasting stuff)
@@ -174,6 +175,9 @@ set noswapfile
     nnoremap <Space>Li 
       \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
 
+  "run command under cursor and print output underneath
+  nnoremap <Space>c 0v$h"cy:r!<C-r>c<CR>
+
 "visual mode maps 
 
   "replace all occurences of visually selected text
@@ -186,7 +190,7 @@ set noswapfile
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
-  vnoremap mk <Esc>
+  vnoremap j; <Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
@@ -229,17 +233,19 @@ set noswapfile
   inoremap { {}<Esc>i
   inoremap < <><Esc>i
   inoremap " ""<Esc>i
-  inoremap ' ''<Esc>i
+  "inoremap ' ''<Esc>i
 
   "go to normal mode
-  inoremap mk <Esc>
+  inoremap j; <Esc>
 
 "command mode maps 
 
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
-  cnoremap ;; <CR>
+
+  "run command
+  cnoremap j; <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+

@@ -36,7 +36,6 @@ bindsym $alt+l exec "rofi -modi drun,run -show drun"
 # close (aka _k_ill for the vulgar) selected window
 bindsym $alt+k kill
 
-
 # screenshot
 bindsym Print exec gnome-screenshot -i 
 
@@ -44,6 +43,16 @@ bindsym Print exec gnome-screenshot -i
 bindsym $alt+q exec shutdown now
 
 ####################################################### Windows
+
+# toggle left/right window
+# (really it's focus next window to the right but I mostly use is for toggling)
+bindsym $alt+space focus right
+# toggle up/down window
+bindsym $win+space focus up
+
+# split the selected window horizontally/vertically for new window
+bindsym $alt+h split h
+bindsym $alt+v split v
 
 ##########################################################
 ##########################################################
@@ -53,7 +62,7 @@ bindsym $alt+q exec shutdown now
 ##########################################################
 ##########################################################
 
-# choose w_i_ndow the selected window around within the workspace
+# choose w_i_ndow within the current workspace
 bindsym $alt+i mode "choose w_i_ndow"
 mode "choose w_i_ndow" {
   bindsym j focus left
@@ -86,17 +95,9 @@ mode "_r_esize window" {
   bindsym space mode "default"
 }
 
-# _t_oggle 2 windows
-#   (really it's focus next right but I mostly use is for toggling)
-bindsym $alt+t focus right
-
-# split the selected window horizontally/vertically when for new window
-bindsym $alt+h split h
-bindsym $alt+v split v
-
 ####################################################### Workspaces
 
-# names: numbers and emojis
+# numbers (emojis are rendered by polybar)
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -105,12 +106,15 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
+set $ws9 "9"
 
 # go to previous/next workspace
 bindsym $alt+j workspace prev_on_output
 bindsym $alt+semicolon workspace next_on_output
 
-# choose w_o_rkspace with number
+# choose w_o_rkspace:
+# - immediately with number
+# - previous/next with j/; and space when done
 bindsym $alt+o mode "choose w_o_rkspace"
 mode "choose w_o_rkspace" {
   bindsym 1 workspace $ws1 mode "default"
@@ -121,6 +125,7 @@ mode "choose w_o_rkspace" {
   bindsym 6 workspace $ws6 mode "default"
   bindsym 7 workspace $ws7 mode "default"
   bindsym 8 workspace $ws8 mode "default"
+  bindsym 9 workspace $ws9 mode "default"
 
   # go to previous/next workspace
   bindsym j workspace prev_on_output
@@ -146,13 +151,14 @@ mode "build workspace" {
     mode "default"
   bindsym 6 workspace $ws6; exec signal-desktop; mode "default"
   bindsym 7 workspace $ws7; exec flatpak run com.spotify.Client; mode "default"
+  bindsym 9 workspace $ws9; exec /usr/local/bin/bitcoin-qt; mode "default"
 
   bindsym space mode "default"
 }
 
 # mode to _m_ove the selected window through other workspaces
 # - immediately by specific number
-# - j/; for next/previous and space when it's the correct workspace
+# - previous/next with j/; and space when done
 bindsym $win+m mode "_m_ove outside"
 mode "_m_ove outside" {
   bindsym 1 move container to workspace $ws1 workspace $ws1 mode "default"
@@ -163,6 +169,7 @@ mode "_m_ove outside" {
   bindsym 6 move container to workspace $ws6 workspace $ws6 mode "default"
   bindsym 7 move container to workspace $ws7 workspace $ws7 mode "default"
   bindsym 8 move container to workspace $ws8 workspace $ws8 mode "default"
+  bindsym 9 move container to workspace $ws9 workspace $ws9 mode "default"
 
   bindsym j \
     move container to workspace prev_on_output workspace prev_on_output
@@ -182,12 +189,12 @@ mode "sound+brightness" {
     exec --no-startup-id \
       "pactl set-sink-mute @DEFAULT_SINK@ toggle" mode "default"
 
-  # lower/increase volume
+  # j/; -> lower/increase volume
   bindsym j exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
   bindsym semicolon exec --no-startup-id \
     pactl set-sink-volume @DEFAULT_SINK@ +10%
 
-  # lower/increase brightness
+  # k/l -> lower/increase brightness
   bindsym k exec --no-startup-id brightnessctl set 10%- intel_backlight
   bindsym l exec --no-startup-id brightnessctl set +10% intel_backlight
 
@@ -196,15 +203,13 @@ mode "sound+brightness" {
 
 ####################################################### Startup
 
-############################################ mine
-
-# polybar
+# polybar: for the beautiful bars 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # for round corners
 exec --no-startup-id picom
 
-# for background image
+# for the background image
 exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
 
 # for automatically starting various apps in various workspaces
@@ -214,22 +219,11 @@ exec --no-startup-id $scripts/i3msg.sh
 exec_always --no-startup-id \
   setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
 
-# volume icon
-# exec --no-startup-id volumeicon
-
 # mirror on tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
 
-############################################ not mine
-
-# manage wireless networks GUI
-# exec --no-startup-id nm-applet
-
-# autostart some stuff (dont ask me 🤷)
+# starts tray icons and apps: wifi + bluetooth + software update manager
 exec --no-startup-id dex --autostart --environment i3
-
-# locking some stuff (dont ask me 🤷)
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 ####################################################### Floating Windows
 
@@ -238,9 +232,6 @@ bindsym $win+f floating toggle
 
 # move floating windows wtih the mouse by having the alt key pressed
 floating_modifier $alt
-
-# change focus between tiling / floating windows
-bindsym $win+space focus mode_toggle
 
 ####################################################### i3
 

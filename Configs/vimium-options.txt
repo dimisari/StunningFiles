@@ -16,16 +16,8 @@ map K scrollPageDown
 map L scrollPageUp
 
 "gonna search with 's'
-unmap /
 map s enterFindMode
 
-"gonna go back with 'b'
-unmap b
-map b goBack
-
-"go forward with 'n'
-map n goForward
-
-"for youtube, 'f' is for fullscreen
+"for youtube 'f' if for fullscreen so 'F' instead 
 unmap F
-map F LinkHints.activateMode"
+map F LinkHints.activateMode

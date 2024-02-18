@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install ranger vim-gtk xsel texlive texlive-lang-greek
+sudo apt install vim-gtk ranger i3 polybar texlive texlive-lang-greek xsel
 
 sudo apt install apt-transport-https curl
 
