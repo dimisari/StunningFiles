@@ -2,7 +2,7 @@
 # alt and windows keys + script directory
 set $alt Mod1
 set $win Mod4
-set $scripts $HOME/StunningFiles/Scripts/i3msg
+set $scripts $HOME/StunningFiles/Scripts/i3
 
 ####################################################### Styling
 
