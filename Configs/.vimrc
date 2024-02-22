@@ -165,14 +165,14 @@ set noswapfile
 
   "latex maps
     "reload pdf
-    nnoremap <Space>Lr :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
+    nnoremap <Space>LR :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
     "begin and end verbatim + put cursor inside
-    nnoremap <Space>Lv 
+    nnoremap <Space>LV 
       \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
 
     "begin and end itemize + put cursor inside
-    nnoremap <Space>Li 
+    nnoremap <Space>LI 
       \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
 
   "run command under cursor and print output underneath
