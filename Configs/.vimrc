@@ -254,7 +254,7 @@ set noswapfile
   "source vimrc
   command! S execute "source ~/.vimrc"
   "load current (haskell) file in ghci
-  command! G execute "!ghci %"
+  command! G execute "!ghci -XLambdaCase %"
   "run current (script) file
   command! R execute "!./%"
 

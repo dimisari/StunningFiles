@@ -1,16 +1,17 @@
 
-# alt and windows keys + script directory
+# alt and windows keys + scripts directory
 set $alt Mod1
 set $win Mod4
 set $scripts $HOME/StunningFiles/Scripts/i3
 
 ####################################################### Styling
 
-# window border
+######## window border
 default_border pixel 25
 
-# gaps between windows
+######## gaps between windows
 gaps inner 25
+# for the beautiful (poly)bars
 gaps top 80
 gaps bottom 115
 
@@ -26,11 +27,12 @@ bindsym $alt+s exec brave-browser
 # close (aka _d_elete) whole workspace
 bindsym $alt+d focus parent,kill
 
-# toggle _f_ullscreen
+# toggle _f_ullscreen for selected window
 bindsym $alt+f fullscreen toggle
 
 
-# _l_aunch some program (search bar)
+# rofi: _l_aunch some program (search bar)
+#   (and it seems much more. need to check it out)
 bindsym $alt+l exec "rofi -modi drun,run -show drun"
 
 # close (aka _k_ill for the vulgar) selected window
@@ -48,7 +50,8 @@ bindsym $alt+q exec shutdown now
 # (really it's focus next window to the right but I mostly use is for toggling)
 bindsym $alt+space focus right
 # toggle up/down window
-bindsym $win+space focus up
+# (really it's focus next window down but I mostly use is for toggling)
+bindsym $win+space focus down
 
 # split the selected window horizontally/vertically for new window
 bindsym $alt+h split h
@@ -137,14 +140,13 @@ mode "choose w_o_rkspace" {
 # _b_uild workspace with number (go + automatically open corresponding windows) 
 bindsym $alt+b mode "build workspace"
 mode "build workspace" {
-  bindsym 1 workspace $ws1;\
-    exec i3-sensible-terminal; exec i3-sensible-terminal; mode "default"
+  bindsym 1 workspace $ws1; exec i3-sensible-terminal; mode "default"
   bindsym 2 workspace $ws2;\
     exec $scripts/open_tasks.sh; exec "sleep 1.5; exec i3-sensible-terminal";\
     mode "default"
   bindsym 3 workspace $ws3; exec $scripts/pdf.sh; mode "default"
   bindsym 4 workspace $ws4;\
-    exec "brave-browser --password-store=basic --new-window gmail.com";\
+    exec "brave-browser --password-store=basic";\
     mode "default"
   bindsym 5 workspace $ws5;\
     exec "brave-browser --password-store=basic --new-window youtube.com";\
@@ -184,7 +186,7 @@ mode "_m_ove outside" {
 # mode to _c_ontrol sound and brighness levels
 bindsym $alt+c mode "sound+brightness"
 mode "sound+brightness" {
-  # mute (and go to default mode)
+  # _m_ute (and go to default mode)
   bindsym m \
     exec --no-startup-id \
       "pactl set-sink-mute @DEFAULT_SINK@ toggle" mode "default"
@@ -206,16 +208,16 @@ mode "sound+brightness" {
 # polybar: for the beautiful bars 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# for round corners
+# picom: for round window corners
 exec --no-startup-id picom
 
-# for the background image
+# feh: for the background image
 exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
 
-# for automatically starting various apps in various workspaces
+# i3msg script: for automatically starting various apps in various workspaces
 exec --no-startup-id $scripts/i3msg.sh
 
-# for languages: greek and english + toggle with alt shift
+# setxkbmap: for languages (greek and english + toggle with alt shift)
 exec_always --no-startup-id \
   setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
 
@@ -223,6 +225,7 @@ exec_always --no-startup-id \
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
 
 # starts tray icons and apps: wifi + bluetooth + software update manager
+# I guess this is distro specific. I don't know. I use mint btw.
 exec --no-startup-id dex --autostart --environment i3
 
 ####################################################### Floating Windows

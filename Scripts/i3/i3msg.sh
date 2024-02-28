@@ -12,10 +12,9 @@ brave="brave-browser --password-store=basic"
 
 # you shall begin
 i3-msg "workspace 1; exec $terminal;"
-i3-msg "exec $terminal"
 sleep 1
 
-i3-msg "workspace 4; exec $brave --new-window gmail.com"
+i3-msg "workspace 4; exec $brave"
 sleep $wait_time
 
 i3-msg "workspace 6; exec signal-desktop"
