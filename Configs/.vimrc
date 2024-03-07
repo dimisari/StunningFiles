@@ -190,7 +190,9 @@ set noswapfile
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
+  "(both so that I can press them simultaneously and not care about the order)
   vnoremap j; <Esc>
+  vnoremap ;j <Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
@@ -210,14 +212,24 @@ set noswapfile
   vnoremap <Space>e" s"<c-r>""<Esc>%
   vnoremap <Space>e' s'<c-r>"'<Esc>%
 
-  "comment/uncomment selected text
-    "Haskell
-    vnoremap <Space>hc :norm i-- <CR>
-    vnoremap <Space>hu :norm ddd<CR>
+  "select all text inside () [] {}
+  vnoremap ip ib
+  vnoremap is i[
+  vnoremap ib i{
 
+  "select all text inside and including () [] {}
+  vnoremap ap ab
+  vnoremap as a[
+  vnoremap ab a{
+
+  "comment/uncomment selected text
     "Bash/Python
     vnoremap <C-c> :norm i# <CR>
     vnoremap <C-u> :norm dd<CR>
+
+    "Haskell
+    vnoremap <Space>hc :norm i-- <CR>
+    vnoremap <Space>hu :norm ddd<CR>
 
 "insert mode maps 
 
@@ -236,7 +248,9 @@ set noswapfile
   "inoremap ' ''<Esc>i
 
   "go to normal mode
+  "(both so that I can press them simultaneously and not care about the order)
   inoremap j; <Esc>
+  inoremap ;j <Esc>
 
 "command mode maps 
 
@@ -245,7 +259,9 @@ set noswapfile
   cnoremap <C-k> <C-n>
 
   "run command
+  "(both so that I can press them simultaneously and not care about the order)
   cnoremap j; <CR>
+  cnoremap ;j <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+

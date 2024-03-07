@@ -1,7 +1,7 @@
 
 # give it time to build every workspace, it's very calming
 wait_time=4
-btc_wait_time=10
+btc_wait_time=12
 
 # scripts directory
 scripts_dir=$(cd $(dirname $0) && pwd)

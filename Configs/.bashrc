@@ -59,5 +59,6 @@ bind '"\C-l":previous-history'
 bind '"\C-k":next-history'
 bind '"\C-e":alias-expand-line'
 bind '"j;":"\C-m"'
+bind '";j":"\C-m"'
 
 [ -f "/home/gnostis/.ghcup/env" ] && source "/home/gnostis/.ghcup/env" # ghcup-env
