@@ -190,9 +190,7 @@ set noswapfile
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
-  "(both so that I can press them simultaneously and not care about the order)
-  vnoremap j; <Esc>
-  vnoremap ;j <Esc>
+  vnoremap jl <Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
@@ -221,6 +219,12 @@ set noswapfile
   vnoremap ap ab
   vnoremap as a[
   vnoremap ab a{
+  "same plus "" ''
+  vnoremap ( ab
+  vnoremap [ a[
+  vnoremap { a{
+  vnoremap " a"
+  vnoremap ' a'
 
   "comment/uncomment selected text
     "Bash/Python
@@ -245,12 +249,10 @@ set noswapfile
   inoremap { {}<Esc>i
   inoremap < <><Esc>i
   inoremap " ""<Esc>i
-  "inoremap ' ''<Esc>i
+  inoremap ' ''<Esc>i
 
   "go to normal mode
-  "(both so that I can press them simultaneously and not care about the order)
-  inoremap j; <Esc>
-  inoremap ;j <Esc>
+  inoremap jl <Esc>
 
 "command mode maps 
 
@@ -259,9 +261,7 @@ set noswapfile
   cnoremap <C-k> <C-n>
 
   "run command
-  "(both so that I can press them simultaneously and not care about the order)
-  cnoremap j; <CR>
-  cnoremap ;j <CR>
+  cnoremap jl <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+

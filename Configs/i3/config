@@ -22,7 +22,7 @@ gaps bottom 115
 bindsym $alt+a exec i3-sensible-terminal
 
 # launch brave
-bindsym $alt+s exec brave-browser
+bindsym $alt+s exec "brave-browser --password-store=basic"
 
 # close (aka _d_elete) whole workspace
 bindsym $alt+d focus parent,kill
