@@ -269,10 +269,16 @@ set noswapfile
 "custom commands
   "source vimrc
   command! S execute "source ~/.vimrc"
-  "load current (haskell) file in ghci
-  command! G execute "!ghci -XLambdaCase %"
+  "save + load current (haskell) file in ghci
+  command! G execute "call Ghci()"
   "run current (script) file
   command! R execute "!./%"
+
+"vim functions
+function Ghci()
+  w
+  !ghci -XLambdaCase %
+endfunction
 
 "encoding
 set encoding=utf-8
@@ -284,3 +290,4 @@ set wildmode=full
 "enable K (which is mapped to <Space>h above)
 "for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
+
