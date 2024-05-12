@@ -39,7 +39,7 @@ bindsym $alt+l exec "rofi -modi drun,run -show drun"
 bindsym $alt+k kill
 
 # screenshot
-bindsym Print exec gnome-screenshot -i 
+bindsym Print exec gnome-screenshot -i
 
 # _q_uit laptop (aka shut down)
 bindsym $alt+q exec shutdown now
@@ -137,13 +137,11 @@ mode "choose w_o_rkspace" {
   bindsym space mode "default"
 }
 
-# _b_uild workspace with number (go + automatically open corresponding windows) 
+# _b_uild workspace with number (go + automatically open corresponding windows)
 bindsym $alt+b mode "build workspace"
 mode "build workspace" {
   bindsym 1 workspace $ws1; exec i3-sensible-terminal; mode "default"
-  bindsym 2 workspace $ws2;\
-    exec $scripts/open_tasks.sh; exec "sleep 1.5; exec i3-sensible-terminal";\
-    mode "default"
+  bindsym 2 workspace $ws2; exec i3-sensible-terminal; mode "default"
   bindsym 3 workspace $ws3; exec $scripts/pdf.sh; mode "default"
   bindsym 4 workspace $ws4;\
     exec "brave-browser --password-store=basic";\
@@ -205,24 +203,31 @@ mode "sound+brightness" {
 
 ####################################################### Startup
 
-# polybar: for the beautiful bars 
+# polybar: for the beautiful bars
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # picom: for round window corners
 exec --no-startup-id picom
 
 # feh: for the background image
-exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpg
+exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpeg
+exec_always --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpeg
 
 # i3msg script: for automatically starting various apps in various workspaces
 exec --no-startup-id $scripts/i3msg.sh
 
 # setxkbmap: for languages (greek and english + toggle with alt shift)
+exec --no-startup-id \
+  "setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105"
+# same with exec_always (sometimes it doesn't work on startup)
 exec_always --no-startup-id \
-  setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105
+  "setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105"
 
-# mirror on tv when using hmdi
+# mirror on monitor/tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
+# same with exec_always (for when connecting hdmi after startup)
+exec_always --no-startup-id \
+  "xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1"
 
 # starts tray icons and apps: wifi + bluetooth + software update manager
 # I guess this is distro specific. I don't know. I use mint btw.

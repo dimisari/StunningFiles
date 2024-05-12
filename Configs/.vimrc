@@ -12,11 +12,11 @@ set hlsearch incsearch
 set ignorecase smartcase
 
 "self explanatory and awesome
-set autoindent 
+set autoindent
 
 "tab options:
 "  it is 2 spaces + make it actual spaces (_expand_) +
-"  auto _shift(width)_ (e.g. inside multiline paren expr) is also 2 spaces 
+"  auto _shift(width)_ (e.g. inside multiline paren expr) is also 2 spaces
 set tabstop=2 expandtab shiftwidth=2
 
 "start _scroll_ing 10 lines (_off_set) before hitting any edge
@@ -62,25 +62,23 @@ set noswapfile
   noremap P "+P
   "space + p/P + letter
   "  => _p/P_aste from register with that letter: after/at cursor
-  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p" 
-  noremap <expr> <Space>P "\"" . nr2char(getchar()) . "P" 
+  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p"
+  noremap <expr> <Space>P "\"" . nr2char(getchar()) . "P"
 
   "go to first char of line
-  noremap K ^
+  noremap <Space>j ^
   "go to last char of line
-  noremap L $h
+  noremap <Space>; $h
   "toggle between opening and closing in all brackets
-  noremap zk %
-  "same (I like differentiating in by brain, it's still just toggle)
-  noremap zl %
+  noremap zj %
 
   "LOVE these
   "  next/previous search match + center cursor vertically
   noremap n nzz
   noremap N Nzz
-  "  paragraph down/up (next or previous empty line) + center cursor vertically
-  noremap <Space>k }zz
-  noremap <Space>l {zz
+  "  paragraph down/up (next/previous empty line) + center cursor vertically
+  noremap K }zz
+  noremap L {zz
   "  half page down/up + center cursor vertically
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
@@ -94,7 +92,7 @@ set noswapfile
   noremap gk gj
   noremap gl gk
 
-"normal mode maps 
+"normal mode maps
 
   "_c_opy line into system clipboard
   nnoremap c "+yy
@@ -111,7 +109,7 @@ set noswapfile
   "_s_earch word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
 
-  "save 
+  "save
   nnoremap <Space>z :w<CR>
 
   "_q_uit (without saving)
@@ -132,21 +130,14 @@ set noswapfile
   "remove previous search _h_ighlighting
   nnoremap h :noh<CR>
 
-  "visually select all text inside and including the next:
-  "  _p_arentheses
-  nnoremap <Space>jp f(vab
-  "  _s_quare brackets
-  nnoremap <Space>js f[va[
-  "  _b_races
-  nnoremap <Space>jb f{va{
-  "  double quotes
-  nnoremap <Space>j" f"va"
-  "  single quotes
-  nnoremap <Space>j' f'va'
+  "find character with f + char (does it with search so that n/N can be used)
+  nnoremap <expr> f "/" . nr2char(getchar()) . "<CR>:noh<CR>"
+  "same but backwards with F instead of f
+  nnoremap <expr> F "/" . nr2char(getchar()) . "<CR>N:noh<CR>"
 
   "edit other file
   "(saves automatically to not have problems when deleting + pasting stuff)
-  nnoremap <Space>e :w<CR>:e 
+  nnoremap <Space>e :w<CR>:e
   "edit file under cursor
   nnoremap <Space>f :w<CR>gf
   "In most files I have a few lines with all the other files I usually switch
@@ -155,30 +146,46 @@ set noswapfile
 
   "increase/decrease int
   noremap <Space>mi <C-a>
-  noremap <Space>md <C-x> 
+  noremap <Space>md <C-x>
 
   "select all
   nnoremap <C-a> ggVG
 
-  "(vim) help on the word under the cursor 
-  nnoremap <Space>h K
+  "(vim) help on the word under the cursor
+  nnoremap <Space>H K
+
+  "Haskell maps
+    "value def
+    nnoremap <Space>hv o<Esc>o__ :: __<CR>__ = __<Esc>{/__<CR>
+
+    "type
+    nnoremap <Space>ht o<Esc>otype __ = __<CR><Esc>{/__<CR>
+
+    "data
+    nnoremap <Space>hd o<Esc>odata __ =<CR>  __ \| __<CR><Esc>{/__<CR>
+
+    "class
+    nnoremap <Space>hc o<Esc>oclass __ where<CR>  __ :: __<CR><Esc>{/__<CR>
+
+    "instance
+    nnoremap <Space>hi o<Esc>oinstance __ where<CR>  __ = __<CR><Esc>{/__<CR>
 
   "latex maps
     "reload pdf
     nnoremap <Space>LR :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
     "begin and end verbatim + put cursor inside
-    nnoremap <Space>LV 
-      \o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
+    nnoremap <Space>LV
+      \ o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
 
     "begin and end itemize + put cursor inside
-    nnoremap <Space>LI 
-      \o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
+    nnoremap <Space>LI
+      \ o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
 
   "run command under cursor and print output underneath
   nnoremap <Space>c 0v$h"cy:r!<C-r>c<CR>
 
-"visual mode maps 
+"visual mode maps
 
   "replace all occurences of visually selected text
   vnoremap r "hy:%s/<C-r>h//g<Left><Left>
@@ -190,7 +197,7 @@ set noswapfile
   vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
-  vnoremap jl <Esc>
+  vnoremap <C-j> <Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
@@ -202,7 +209,7 @@ set noswapfile
   "space + c + letter => copy visually selected text to register with that letter
   vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
-  "enclose visually selected text in () [] {} <> "" '' 
+  "enclose visually selected text in () [] {} <> "" ''
   vnoremap <Space>ep s(<c-r>")<Esc>%
   vnoremap <Space>es s[<c-r>"]<Esc>%
   vnoremap <Space>eb s{<c-r>"}<Esc>%
@@ -226,6 +233,11 @@ set noswapfile
   vnoremap " a"
   vnoremap ' a'
 
+  "find character with f + char (does it with search so that n/N can be used)
+  vnoremap <expr> f "/" . nr2char(getchar()) . "<CR>"
+  "same but backwards with F instead of f
+  vnoremap <expr> F "?" . nr2char(getchar()) . "<CR>"
+
   "comment/uncomment selected text
     "Bash/Python
     vnoremap <C-c> :norm i# <CR>
@@ -235,7 +247,7 @@ set noswapfile
     vnoremap <Space>hc :norm i-- <CR>
     vnoremap <Space>hu :norm ddd<CR>
 
-"insert mode maps 
+"insert mode maps
 
   "autocomplete with tab
   inoremap <Tab> <C-n>
@@ -252,16 +264,13 @@ set noswapfile
   inoremap ' ''<Esc>i
 
   "go to normal mode
-  inoremap jl <Esc>
+  inoremap <C-j> <Esc>
 
-"command mode maps 
+"command mode maps
 
   "go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
-
-  "run command
-  cnoremap jl <CR>
 
   "paste in command mode
   cnoremap <C-p> <C-r>+
@@ -271,6 +280,7 @@ set noswapfile
   command! S execute "source ~/.vimrc"
   "save + load current (haskell) file in ghci
   command! G execute "call Ghci()"
+  command! GL execute "call GhciLong()"
   "run current (script) file
   command! R execute "!./%"
 
@@ -278,6 +288,11 @@ set noswapfile
 function Ghci()
   w
   !ghci -XLambdaCase %
+endfunction
+
+function GhciLong()
+  w
+  !file=$(basename $(pwd))/%; cd ..; ghci -XLambdaCase $file
 endfunction
 
 "encoding
@@ -290,4 +305,7 @@ set wildmode=full
 "enable K (which is mapped to <Space>h above)
 "for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
-
+"remove all whitespace before end of line
+"  because if there is an empty line with space jumping paragraphs doens't work
+"  properly and it's very annoying
+autocmd BufWritePre * :%s/\s\+$//e

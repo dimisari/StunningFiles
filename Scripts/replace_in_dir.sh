@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$#" -ne 3 ]; then
-  echo "Use: script dir toBeReplaced withThis"
+if [ "$#" -ne 2 ]; then
+  echo "Use: script toBeReplaced withThis"
 else
-  find $1 -type f -exec sed -i -e "s/$2/$3/g" {} \;
+  find . -type f -exec sed -i -e "s/$1/$2/g" {} \;
 fi
