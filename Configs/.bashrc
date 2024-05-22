@@ -46,11 +46,16 @@ fi
 
 ghu(){
   git add .
-  case $1 in 
+  case $1 in
     "") git commit -m "Just Saving" ;;
     *)  git commit -m "$1" ;;
   esac
   git push
+}
+
+ga(){
+  git add $1
+  git status
 }
 
 PS1="\W: "

@@ -236,7 +236,7 @@ set noswapfile
   "find character with f + char (does it with search so that n/N can be used)
   vnoremap <expr> f "/" . nr2char(getchar()) . "<CR>"
   "same but backwards with F instead of f
-  vnoremap <expr> F "?" . nr2char(getchar()) . "<CR>"
+  vnoremap <expr> F "/" . nr2char(getchar()) . "<CR>N"
 
   "comment/uncomment selected text
     "Bash/Python
