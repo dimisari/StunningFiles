@@ -3,6 +3,9 @@
 set $alt Mod1
 set $win Mod4
 set $scripts $HOME/StunningFiles/Scripts/i3
+set $desktop $HOME/Desktop
+set $lcases $desktop/lambda-cases
+set $src $lcases/src
 
 ####################################################### Styling
 
@@ -140,12 +143,11 @@ mode "choose w_o_rkspace" {
 # _b_uild workspace with number (go + automatically open corresponding windows)
 bindsym $alt+b mode "build workspace"
 mode "build workspace" {
-  bindsym 1 workspace $ws1; exec i3-sensible-terminal; mode "default"
-  bindsym 2 workspace $ws2; exec i3-sensible-terminal; mode "default"
+  bindsym 1 workspace $ws1; exec $scripts/three_terms_src.sh; mode "default"
+  bindsym 2 workspace $ws2; exec $scripts/three_terms_lcases.sh; mode "default"
   bindsym 3 workspace $ws3; exec $scripts/pdf.sh; mode "default"
   bindsym 4 workspace $ws4;\
-    exec "brave-browser --password-store=basic";\
-    mode "default"
+    exec "brave-browser --password-store=basic"; mode "default"
   bindsym 5 workspace $ws5;\
     exec "brave-browser --password-store=basic --new-window youtube.com";\
     mode "default"

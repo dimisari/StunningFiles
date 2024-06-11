@@ -1,5 +1,5 @@
 # now
-alias bam="cd $HOME/Desktop/lambda-cases/new_parser/src/; vim ASTTypes.hs"
+alias bam="cd $HOME/Desktop/lambda-cases/src/; vim ASTTypes.hs"
 
 # configs
 bashFile="$HOME/.bashrc"
@@ -32,6 +32,7 @@ alias sai="sudo apt install"
 alias cb="cabal build"
 alias cr="cabal run"
 alias ghci="ghci -XLambdaCase"
+alias ghc="ghc -odir /tmp -hidir /tmp"
 
 # docker
 alias dps="docker ps"
@@ -53,3 +54,4 @@ helpScripts="$HOME/StunningFiles/Scripts"
 alias temp="$helpScripts/copy_template.sh"
 alias dirr="$helpScripts/replace_in_dir.sh"
 alias inv="$helpScripts/in_vim.sh"
+

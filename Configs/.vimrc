@@ -56,15 +56,6 @@ set noswapfile
   "x: delete and get into insert mode (deletes cursor char in normal mode)
   noremap x s
 
-  "_p/P_aste after/at cursor from clipboard
-  "  or on top of selected text if in visual mode
-  noremap p "+p
-  noremap P "+P
-  "space + p/P + letter
-  "  => _p/P_aste from register with that letter: after/at cursor
-  noremap <expr> <Space>p "\"" . nr2char(getchar()) . "p"
-  noremap <expr> <Space>P "\"" . nr2char(getchar()) . "P"
-
   "go to first char of line
   noremap <Space>j ^
   "go to last char of line
@@ -82,10 +73,6 @@ set noswapfile
   "  half page down/up + center cursor vertically
   noremap <C-k> <C-d>zz
   noremap <C-l> <C-u>zz
-
-  "_c_omment/_u_ncomment line (# comment)
-  noremap <C-c> 0i# <Esc>
-  noremap <C-u> 0d2l
 
   "down/up for huge lines that are broken
   "  (better to use gq to fix them but just in case)
@@ -106,8 +93,32 @@ set noswapfile
   "_r_eplace all occurences of word under cursor with ...
   nnoremap r :%s/\<<C-r><C-w>\>//g<Left><Left>
 
+  "remove search highlighting
+  nnoremap h :noh<CR>
+
+  "_p/P_aste after/at cursor from clipboard
+  nnoremap p "+p
+  nnoremap P "+P
+
+  "start recording @v before entering visual (+ @l for V + @b for <C-v>)
+  nnoremap <expr> v (len(reg_recording()) == 0 ? "qvv" : "v")
+  nnoremap <expr> V (len(reg_recording()) == 0 ? "qlV" : "V")
+  nnoremap <expr> <C-v> (len(reg_recording()) == 0 ? "qb<C-v>" : "<C-v>")
+
+  "add v before @v because the 2nd v above is not actually recorded
+  "  for some reason (+ @l for V + @b for <C-v>)
+  nnoremap @v v@v
+  nnoremap @l V@l
+  nnoremap @b <C-v>@b
+
   "_s_earch word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
+
+  "_S_earch Word under cursor + center cursor vertically
+  nnoremap S viWy/\V<C-R>=escape(@",'/\')<CR><CR>N
+
+  "delete Word and get into insert mode
+  nnoremap X viWs
 
   "save
   nnoremap <Space>z :w<CR>
@@ -127,22 +138,35 @@ set noswapfile
   nnoremap <Space>> <C-v>>
   nnoremap <Space>< <C-v><
 
-  "remove previous search _h_ighlighting
-  nnoremap h :noh<CR>
+  "space + c + letter => copy line to register with that letter
+  nnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "yy"
+
+  "space + p/P + letter
+  "  => _p/P_aste from register with that letter: after/at cursor
+  nnoremap <expr> <Space>p "\"" . nr2char(getchar()) . "p"
+  nnoremap <expr> <Space>P "\"" . nr2char(getchar()) . "P"
 
   "find character with f + char (does it with search so that n/N can be used)
   nnoremap <expr> f "/" . nr2char(getchar()) . "<CR>:noh<CR>"
   "same but backwards with F instead of f
   nnoremap <expr> F "/" . nr2char(getchar()) . "<CR>N:noh<CR>"
 
-  "edit other file
-  "(saves automatically to not have problems when deleting + pasting stuff)
-  nnoremap <Space>e :w<CR>:e
+  "enclose Word in () [] {} <> "" ''
+  nnoremap <Space>ep viWs(<c-r>")<Esc>%
+  nnoremap <Space>es viWs[<c-r>"]<Esc>%
+  nnoremap <Space>eb viWs{<c-r>"}<Esc>%
+  nnoremap <Space>e< viWs<<c-r>"><Esc>
+  nnoremap <Space>e" viWs"<c-r>""<Esc>
+  nnoremap <Space>e' viWs'<c-r>"'<Esc>
+
   "edit file under cursor
   nnoremap <Space>f :w<CR>gf
   "In most files I have a few lines with all the other files I usually switch
   "to from there. I use this to switch fast. It's usually a commented area
   "at the bottom of the file so that I can combine it in with G.
+
+  "run command under cursor and print output underneath
+  nnoremap <Space>r 0v$h"cy:r!<C-r>c<CR>
 
   "increase/decrease int
   noremap <Space>mi <C-a>
@@ -150,6 +174,22 @@ set noswapfile
 
   "select all
   nnoremap <C-a> ggVG
+
+  "comment/uncomment selected text
+    "Haskell
+    nnoremap <Space>CH I-- <Esc>
+    nnoremap <Space>UH ^d3l
+
+    "Bash
+    nnoremap <Space>CB I# <Esc>
+    nnoremap <Space>UB ^d2l<Esc>
+
+    "Python
+    nnoremap <Space>CP I# <Esc>
+    nnoremap <Space>UP ^d2l<Esc>
+
+  "stop recording
+  nnoremap <C-j> q
 
   "(vim) help on the word under the cursor
   nnoremap <Space>H K
@@ -172,80 +212,106 @@ set noswapfile
 
   "latex maps
     "reload pdf
-    nnoremap <Space>LR :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
+    nnoremap R :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
-    "begin and end verbatim + put cursor inside
-    nnoremap <Space>LV
-      \ o<Esc>o\begin{verbatim}<CR>\end{verbatim}<CR><Esc>kko<Esc>
+    "begin-end block + "__" in the braces and a search for "__" to replace it
+    nnoremap <Space>be
+      \ o<Esc>o\begin{__}<CR>\end{__}<CR><Esc>kko\item<Esc>/__<CR>N
 
-    "begin and end itemize + put cursor inside
-    nnoremap <Space>LI
-      \ o<Esc>o\begin{itemize}<CR>\end{itemize}<CR><Esc>kko\item<Esc>
+    "texttt
+    nnoremap <Space>ltt viWs{<c-r>"}<Esc>%i\texttt<Esc>b
 
-  "run command under cursor and print output underneath
-  nnoremap <Space>c 0v$h"cy:r!<C-r>c<CR>
+    "textbf
+    nnoremap <Space>lbf viWs{<c-r>"}<Esc>%i\textbf<Esc>b
+
+    "textit
+    nnoremap <Space>lit viWs{<c-r>"}<Esc>%i\textit<Esc>b
+
+    "verb
+    nnoremap <Space>lv viWs\|<c-r>"\|<Esc>Bi\verb<Esc>b
 
 "visual mode maps
 
   "replace all occurences of visually selected text
-  vnoremap r "hy:%s/<C-r>h//g<Left><Left>
+  vmap <expr> q (reg_recording() == "v" ? "q" : "")
+
+  "replace all occurences of visually selected text
+  vnoremap r q"hy:%s/<C-r>h//g<Left><Left>
 
   "search visually selected text
-  vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
+  vnoremap <Space>s qy/\V<C-R>=escape(@",'/\')<CR><CR>N
 
   "replace something inside only inside the viusally selected text
-  vnoremap <Space>r :s///g<Left><Left><Left>
+  vnoremap <Space>r q:s///g<Left><Left><Left>
 
   "go to normal mode
-  vnoremap <C-j> <Esc>
+  vnoremap <C-j> q<Esc><Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
 
   "copy/delete visually selected text
-  vnoremap c "+y
-  vnoremap d "+d
+  vnoremap c "+yq
+  vnoremap d "+dq
 
   "space + c + letter => copy visually selected text to register with that letter
-  vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
+  vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "yq"
 
   "enclose visually selected text in () [] {} <> "" ''
-  vnoremap <Space>ep s(<c-r>")<Esc>%
-  vnoremap <Space>es s[<c-r>"]<Esc>%
-  vnoremap <Space>eb s{<c-r>"}<Esc>%
-  vnoremap <Space>e< s<<c-r>"><Esc>%
-  vnoremap <Space>e" s"<c-r>""<Esc>%
-  vnoremap <Space>e' s'<c-r>"'<Esc>%
+  vnoremap <Space>ep s(<c-r>")<Esc>%q
+  vnoremap <Space>es s[<c-r>"]<Esc>%q
+  vnoremap <Space>eb s{<c-r>"}<Esc>%q
+  vnoremap <Space>e< s<<c-r>"><Esc>q
+  vnoremap <Space>e" s"<c-r>""<Esc>q
+  vnoremap <Space>e' s'<c-r>"'<Esc>q
 
-  "select all text inside () [] {}
+  "select all text inside () [] {} || line
   vnoremap ip ib
   vnoremap is i[
   vnoremap ib i{
+  vnoremap i\| <Esc>F\|lvf\|h
+  vnoremap il <Esc>0v$h
 
   "select all text inside and including () [] {}
   vnoremap ap ab
   vnoremap as a[
   vnoremap ab a{
-  "same plus "" ''
-  vnoremap ( ab
-  vnoremap [ a[
-  vnoremap { a{
-  vnoremap " a"
-  vnoremap ' a'
+
+  "_p_aste on top of selected text
+  vnoremap p "+pq
+  "space + p + letter: same but for the contents of a register
+  vnoremap <expr> <Space>p "\"" . nr2char(getchar()) . "pq"
 
   "find character with f + char (does it with search so that n/N can be used)
   vnoremap <expr> f "/" . nr2char(getchar()) . "<CR>"
-  "same but backwards with F instead of f
+  "same but beginning at the previous instance instead of the next
   vnoremap <expr> F "/" . nr2char(getchar()) . "<CR>N"
 
   "comment/uncomment selected text
-    "Bash/Python
-    vnoremap <C-c> :norm i# <CR>
-    vnoremap <C-u> :norm dd<CR>
-
     "Haskell
-    vnoremap <Space>hc :norm i-- <CR>
-    vnoremap <Space>hu :norm ddd<CR>
+    vnoremap <Space>CH qo<Esc>i-- <Esc>
+    vnoremap <Space>UH qo<Esc>d3l
+
+    "Bash
+    vnoremap <Space>CB qo<Esc>i# <Esc>
+    vnoremap <Space>UB qo<Esc>d2l
+
+    "Python
+    vnoremap <Space>CP qo<Esc>i# <Esc>
+    vnoremap <Space>UP qo<Esc>d2l
+
+  "latex
+    "enclose visually selected text in begin-end block
+    vnoremap <Space>be "vdi\begin{__}<CR>\end{__}<CR><Esc>kk"vp/__<CR>N
+
+  "gq but also stop recording
+  vnoremap gq qgq
+
+  "~ but also stop recording
+  vnoremap ~ q~
+
+  "~ but also stop recording
+  vnoremap > q>
 
 "insert mode maps
 
@@ -264,7 +330,7 @@ set noswapfile
   inoremap ' ''<Esc>i
 
   "go to normal mode
-  inoremap <C-j> <Esc>
+  inoremap <expr> <C-j> "<Esc>" . (reg_recording() == "v" ? "q" : "")
 
 "command mode maps
 
@@ -305,6 +371,10 @@ set wildmode=full
 "enable K (which is mapped to <Space>h above)
 "for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
+
+"regular tab for Makefile
+autocmd BufRead */Makefile set noexpandtab
+
 "remove all whitespace before end of line
 "  because if there is an empty line with space jumping paragraphs doens't work
 "  properly and it's very annoying
