@@ -100,17 +100,6 @@ set noswapfile
   nnoremap p "+p
   nnoremap P "+P
 
-  "start recording @v before entering visual (+ @l for V + @b for <C-v>)
-  nnoremap <expr> v (len(reg_recording()) == 0 ? "qvv" : "v")
-  nnoremap <expr> V (len(reg_recording()) == 0 ? "qlV" : "V")
-  nnoremap <expr> <C-v> (len(reg_recording()) == 0 ? "qb<C-v>" : "<C-v>")
-
-  "add v before @v because the 2nd v above is not actually recorded
-  "  for some reason (+ @l for V + @b for <C-v>)
-  nnoremap @v v@v
-  nnoremap @l V@l
-  nnoremap @b <C-v>@b
-
   "_s_earch word under cursor + center cursor vertically
   nnoremap <Space>s *Nzz
 
@@ -158,6 +147,7 @@ set noswapfile
   nnoremap <Space>e< viWs<<c-r>"><Esc>
   nnoremap <Space>e" viWs"<c-r>""<Esc>
   nnoremap <Space>e' viWs'<c-r>"'<Esc>
+  nnoremap <Space>e\| viWs\|<c-r>"\|<Esc>
 
   "edit file under cursor
   nnoremap <Space>f :w<CR>gf
@@ -169,8 +159,8 @@ set noswapfile
   nnoremap <Space>r 0v$h"cy:r!<C-r>c<CR>
 
   "increase/decrease int
-  noremap <Space>mi <C-a>
-  noremap <Space>md <C-x>
+  nnoremap <Space>mi <C-a>
+  nnoremap <Space>md <C-x>
 
   "select all
   nnoremap <C-a> ggVG
@@ -194,76 +184,42 @@ set noswapfile
   "(vim) help on the word under the cursor
   nnoremap <Space>H K
 
-  "Haskell maps
-    "value def
-    nnoremap <Space>hv o<Esc>o__ :: __<CR>__ = __<Esc>{/__<CR>
-
-    "type
-    nnoremap <Space>ht o<Esc>otype __ = __<CR><Esc>{/__<CR>
-
-    "data
-    nnoremap <Space>hd o<Esc>odata __ =<CR>  __ \| __<CR><Esc>{/__<CR>
-
-    "class
-    nnoremap <Space>hc o<Esc>oclass __ where<CR>  __ :: __<CR><Esc>{/__<CR>
-
-    "instance
-    nnoremap <Space>hi o<Esc>oinstance __ where<CR>  __ = __<CR><Esc>{/__<CR>
-
   "latex maps
     "reload pdf
     nnoremap R :w<CR> :! pdflatex -output-directory Pdf %<CR><CR>
 
-    "begin-end block + "__" in the braces and a search for "__" to replace it
-    nnoremap <Space>be
-      \ o<Esc>o\begin{__}<CR>\end{__}<CR><Esc>kko\item<Esc>/__<CR>N
-
-    "texttt
-    nnoremap <Space>ltt viWs{<c-r>"}<Esc>%i\texttt<Esc>b
-
-    "textbf
-    nnoremap <Space>lbf viWs{<c-r>"}<Esc>%i\textbf<Esc>b
-
-    "textit
-    nnoremap <Space>lit viWs{<c-r>"}<Esc>%i\textit<Esc>b
-
-    "verb
-    nnoremap <Space>lv viWs\|<c-r>"\|<Esc>Bi\verb<Esc>b
-
 "visual mode maps
 
   "replace all occurences of visually selected text
-  vmap <expr> q (reg_recording() == "v" ? "q" : "")
-
-  "replace all occurences of visually selected text
-  vnoremap r q"hy:%s/<C-r>h//g<Left><Left>
+  vnoremap r "hy:%s/<C-r>h//g<Left><Left>
 
   "search visually selected text
-  vnoremap <Space>s qy/\V<C-R>=escape(@",'/\')<CR><CR>N
+  vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
   "replace something inside only inside the viusally selected text
-  vnoremap <Space>r q:s///g<Left><Left><Left>
+  vnoremap <Space>r :s///g<Left><Left><Left>
 
   "go to normal mode
-  vnoremap <C-j> q<Esc><Esc>
+  vnoremap <C-j> <Esc><Esc>
 
   "space at cursor column (used in visual block for multiple lines)
   vnoremap <Space>i I<Space><Esc>
 
   "copy/delete visually selected text
-  vnoremap c "+yq
-  vnoremap d "+dq
+  vnoremap c "+y
+  vnoremap d "+d
 
   "space + c + letter => copy visually selected text to register with that letter
-  vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "yq"
+  vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
   "enclose visually selected text in () [] {} <> "" ''
-  vnoremap <Space>ep s(<c-r>")<Esc>%q
-  vnoremap <Space>es s[<c-r>"]<Esc>%q
-  vnoremap <Space>eb s{<c-r>"}<Esc>%q
-  vnoremap <Space>e< s<<c-r>"><Esc>q
-  vnoremap <Space>e" s"<c-r>""<Esc>q
-  vnoremap <Space>e' s'<c-r>"'<Esc>q
+  vnoremap <Space>ep s(<c-r>")<Esc>%
+  vnoremap <Space>es s[<c-r>"]<Esc>%
+  vnoremap <Space>eb s{<c-r>"}<Esc>%
+  vnoremap <Space>e< s<<c-r>"><Esc>
+  vnoremap <Space>e" s"<c-r>""<Esc>
+  vnoremap <Space>e' s'<c-r>"'<Esc>
+  vnoremap <Space>e\| s\|<c-r>"\|<Esc>
 
   "select all text inside () [] {} || line
   vnoremap ip ib
@@ -278,9 +234,9 @@ set noswapfile
   vnoremap ab a{
 
   "_p_aste on top of selected text
-  vnoremap p "+pq
+  vnoremap p "+p
   "space + p + letter: same but for the contents of a register
-  vnoremap <expr> <Space>p "\"" . nr2char(getchar()) . "pq"
+  vnoremap <expr> <Space>p "\"" . nr2char(getchar()) . "p"
 
   "find character with f + char (does it with search so that n/N can be used)
   vnoremap <expr> f "/" . nr2char(getchar()) . "<CR>"
@@ -303,15 +259,6 @@ set noswapfile
   "latex
     "enclose visually selected text in begin-end block
     vnoremap <Space>be "vdi\begin{__}<CR>\end{__}<CR><Esc>kk"vp/__<CR>N
-
-  "gq but also stop recording
-  vnoremap gq qgq
-
-  "~ but also stop recording
-  vnoremap ~ q~
-
-  "~ but also stop recording
-  vnoremap > q>
 
 "insert mode maps
 
@@ -344,11 +291,53 @@ set noswapfile
 "custom commands
   "source vimrc
   command! S execute "source ~/.vimrc"
+  "run current (script) file
+  command! R execute "!./%"
+
+  "Latex
+    "textit
+    command! Ltit execute "norm i\\textit{"
+    "texttt
+    command! Lttt execute "norm i\\texttt{"
+    "textbf
+    command! Ltbf execute "norm i\\textbf{"
+    "\verb
+    command! Lverb execute "norm i\\verb||"
+    "\begin - end
+    command! Lbegin execute
+      \ "norm o\\begin{__<Esc>o\\end{__<Esc><Space>oO<CR>\\item<CR><Esc>" .
+      \ "{{/__<CR>"
+
+    "enclose textit
+    command! Letit execute "norm viW<Space>ebi\\textit<Esc>:noh<CR>E"
+    "enclose texttt
+    command! Lettt execute "norm viW<Space>ebi\\texttt<Esc>:noh<CR>E"
+    "enclose textbf
+    command! Letbf execute "norm viW<Space>ebi\\textbf<Esc>:noh<CR>E"
+    "enclose verb
+    command! Leverb execute "norm viW<Space>e|Bi\\verb<Esc>:noh<CR>E"
+
+
+  "Haskell
+    "value
+    command! Hvalue execute
+      \ "norm o___ :: __<CR>___ = __<Cr><Esc>{/___<CR>"
+    "data
+    command! Hdata execute
+      \ "norm odata __ =<CR>  __ \| __<CR><Esc>{/__<CR>"
+    "type
+    command! Htype execute
+      \ "norm otype __ = __<CR><Esc>{/__<CR>"
+    "class
+    command! Hclass execute
+      \ "norm oclass __ where<CR>  __ :: __<CR><Esc>{/__<CR>"
+    "instance
+    command! Hinstance execute
+      \ "norm oinstance __ where<CR>  __ = __<CR><Esc>{/__<CR>"
+
   "save + load current (haskell) file in ghci
   command! G execute "call Ghci()"
   command! GL execute "call GhciLong()"
-  "run current (script) file
-  command! R execute "!./%"
 
 "vim functions
 function Ghci()

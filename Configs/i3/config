@@ -1,11 +1,11 @@
 
-# alt and windows keys + scripts directory
+####################################################### Keys + Scripts path
+
+# alt and windows keys
 set $alt Mod1
 set $win Mod4
+# scripts path
 set $scripts $HOME/StunningFiles/Scripts/i3
-set $desktop $HOME/Desktop
-set $lcases $desktop/lambda-cases
-set $src $lcases/src
 
 ####################################################### Styling
 
@@ -20,41 +20,42 @@ gaps bottom 115
 
 ####################################################### Do Stuff
 
-# a s d f and l k for convenience
+# a s d f for convenience
 # launch terminal
 bindsym $alt+a exec i3-sensible-terminal
 
 # launch brave
 bindsym $alt+s exec "brave-browser --password-store=basic"
 
-# close (aka _d_elete) whole workspace
-bindsym $alt+d focus parent,kill
+# kill (aka _d_elete) window
+bindsym $alt+d kill
 
 # toggle _f_ullscreen for selected window
 bindsym $alt+f fullscreen toggle
 
-
-# rofi: _l_aunch some program (search bar)
+# rofi: _r_un some program (search bar)
 #   (and it seems much more. need to check it out)
-bindsym $alt+l exec "rofi -modi drun,run -show drun"
-
-# close (aka _k_ill for the vulgar) selected window
-bindsym $alt+k kill
+bindsym $alt+r exec "rofi -modi drun,run -show drun"
 
 # screenshot
 bindsym Print exec gnome-screenshot -i
 
 # _q_uit laptop (aka shut down)
-bindsym $alt+q exec shutdown now
+bindsym $win+q exec shutdown now
+
+# _r_estart i3
+bindsym $win+Shift+r restart
+
+# exit i3 (log out)
+bindsym $alt+e exit
 
 ####################################################### Windows
 
-# toggle left/right window
-# (really it's focus next window to the right but I mostly use is for toggling)
-bindsym $alt+space focus right
-# toggle up/down window
-# (really it's focus next window down but I mostly use is for toggling)
-bindsym $win+space focus down
+# focus left/down/up/right
+bindsym $alt+j focus right
+bindsym $alt+k focus down
+bindsym $alt+l focus up
+bindsym $alt+semicolon focus right
 
 # split the selected window horizontally/vertically for new window
 bindsym $alt+h split h
@@ -68,17 +69,6 @@ bindsym $alt+v split v
 ##########################################################
 ##########################################################
 
-# choose w_i_ndow within the current workspace
-bindsym $alt+i mode "choose w_i_ndow"
-mode "choose w_i_ndow" {
-  bindsym j focus left
-  bindsym k focus down
-  bindsym l focus up
-  bindsym semicolon focus right
-
-  bindsym space mode "default"
-}
-
 # mode to _m_ove the selected window around within the workspace
 bindsym $alt+m mode "_m_ove around here"
 mode "_m_ove around here" {
@@ -91,7 +81,7 @@ mode "_m_ove around here" {
 }
 
 # mode to _r_esize the selected window
-bindsym $alt+r mode "_r_esize window"
+bindsym $win+r mode "_r_esize window"
 mode "_r_esize window" {
   bindsym j resize shrink width 8 px or 8 ppt
   bindsym k resize grow height 8 px or 8 ppt
@@ -115,8 +105,8 @@ set $ws8 "8"
 set $ws9 "9"
 
 # go to previous/next workspace
-bindsym $alt+j workspace prev_on_output
-bindsym $alt+semicolon workspace next_on_output
+bindsym $alt+Shift+j workspace prev_on_output
+bindsym $alt+Shift+semicolon workspace next_on_output
 
 # choose w_o_rkspace:
 # - immediately with number
@@ -220,10 +210,9 @@ exec --no-startup-id $scripts/i3msg.sh
 
 # setxkbmap: for languages (greek and english + toggle with alt shift)
 exec --no-startup-id \
-  "setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105"
-# same with exec_always (sometimes it doesn't work on startup)
+  "setxkbmap -layout us,gr -option 'grp:alt_caps_toggle' -model pc105"
 exec_always --no-startup-id \
-  "setxkbmap -layout us,gr -option 'grp:alt_shift_toggle' -model pc105"
+  "setxkbmap -layout us,gr -option 'grp:alt_caps_toggle' -model pc105"
 
 # mirror on monitor/tv when using hmdi
 exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
@@ -242,11 +231,3 @@ bindsym $win+f floating toggle
 
 # move floating windows wtih the mouse by having the alt key pressed
 floating_modifier $alt
-
-####################################################### i3
-
-# restart i3 inplace
-bindsym $win+r restart
-
-# exit i3 (logs you out of your X session)
-bindsym $alt+e exec i3-msg exit
