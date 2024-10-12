@@ -11,13 +11,14 @@ alias vi="vim $HOME/.inputrc"
 alias sb="source $bashFile"
 
 # git
-alias gs="git status"
-alias gp="git pull"
-alias gc="git clone"
-alias gb="git branch"
+alias gst="git status"
+alias gpu="git pull"
+alias gcl="git clone"
+alias gbr="git branch"
 alias gch="git checkout"
-alias gd="git diff"
-alias gl="git log"
+alias gco="git commit"
+alias gdi="git diff"
+alias glo="git log"
 
 #  commands in short
 alias h="cd $HOME"
@@ -27,12 +28,13 @@ alias mc_="make clean_"
 alias ..="cd .."
 alias gr="grep -rn"
 alias sai="sudo apt install"
+alias sapt="sudo apt"
 
 # haskell
 alias cb="cabal build"
 alias cr="cabal run"
 alias ghci="ghci -XLambdaCase"
-alias ghc="ghc -odir /tmp -hidir /tmp"
+alias ghc="ghc -no-keep-hi-files -no-keep-o-files"
 
 # docker
 alias dps="docker ps"
