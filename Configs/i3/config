@@ -18,6 +18,11 @@ gaps inner 25
 gaps top 80
 gaps bottom 115
 
+######## colors (default but indicator same as backgr.)
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #285577   #285577
+client.focused_inactive #333333 #5f676a #ffffff #5f676a   #5f676a
+
 ####################################################### Do Stuff
 
 # a s d f for convenience
@@ -47,7 +52,7 @@ bindsym $win+q exec shutdown now
 bindsym $win+Shift+r restart
 
 # exit i3 (log out)
-bindsym $alt+e exit
+bindsym $alt+Shift+e exit
 
 ####################################################### Windows
 
@@ -133,9 +138,10 @@ mode "choose w_o_rkspace" {
 # _b_uild workspace with number (go + automatically open corresponding windows)
 bindsym $alt+b mode "build workspace"
 mode "build workspace" {
-  bindsym 1 workspace $ws1; exec $scripts/three_terms_src.sh; mode "default"
-  bindsym 2 workspace $ws2; exec $scripts/three_terms_lcases.sh; mode "default"
-  bindsym 3 workspace $ws3; exec $scripts/pdf.sh; mode "default"
+  bindsym 1 workspace $ws1; exec i3-sensible-terminal; mode "default"
+  bindsym 2 workspace $ws2; exec i3-sensible-terminal; mode "default"
+  bindsym 3 workspace $ws3;\
+    exec "brave-browser --password-store=basic"; mode "default"
   bindsym 4 workspace $ws4;\
     exec "brave-browser --password-store=basic"; mode "default"
   bindsym 5 workspace $ws5;\

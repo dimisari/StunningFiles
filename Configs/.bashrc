@@ -44,6 +44,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# mine
+
+PS1="\W: "
+
+# git stuff
 ghu(){
   git add .
   case $1 in
@@ -58,6 +63,4 @@ ga(){
   git status
 }
 
-PS1="\W: "
-
-[ -f "/home/gnostis/.ghcup/env" ] && source "/home/gnostis/.ghcup/env" # ghcup-env
+source /home/gnostis/.local/share/cds/bashrc_append

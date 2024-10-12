@@ -1,6 +1,6 @@
 
 # give it time to build every workspace, it's very calming
-signal_wait_time=4
+signal_wait_time=5
 btc_wait_time=13
 
 # scripts directory
