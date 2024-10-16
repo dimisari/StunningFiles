@@ -93,7 +93,7 @@ set noswapfile
   nnoremap d "+x
 
   " _r_eplace all occurences of word under cursor with ...
-  nnoremap r :%s/\<<C-r><C-w>\>//g<Left><Left>
+  nnoremap r :%s/\(\<<C-r><C-w>\>\)//g<Left><Left>
 
   " remove search highlighting
   nnoremap h :noh<CR>
@@ -183,7 +183,7 @@ set noswapfile
 " visual mode maps
 
   " replace all occurences of visually selected text
-  vnoremap r "hy:%s/<C-r>h//g<Left><Left>
+  vnoremap r y:%s/\(<C-R>=escape(@",'/\')<CR>\)//g<Left><Left>
 
   " search visually selected text
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
@@ -201,7 +201,8 @@ set noswapfile
   vnoremap c "+y
   vnoremap d "+d
 
-  " space + c + letter => copy visually selected text to register with that letter
+  " space + c + letter =>
+  " copy visually selected text to register with that letter
   vnoremap <expr> <Space>c "\"" . nr2char(getchar()) . "y"
 
   " enclose visually selected text in () [] {} <> "" ''
@@ -374,6 +375,15 @@ set noswapfile
     command -range UC '<,'> norm ^v;;d
     command SCC /\/\/
 
+  " HTML
+    " tag
+    command -nargs=1 Tag
+      \ call PrintHTMLTag(<f-args>) | execute "norm ll<CR>"
+
+    " div
+    command -nargs=1 Div
+      \ call PrintHTMLDiv(<f-args>) | execute "norm ll<CR>"
+
 " Functions
 function CharOfSearch()
 return escape(nr2char(getchar()), "./$")
@@ -445,6 +455,27 @@ endfunction
     put =a
     endfunction
 
+  " HTML
+    " tag
+    function HTMLTag(tag)
+    return "<" . a:tag . ">\n</" . a:tag . ">\n"
+    endfunction
+
+    function PrintHTMLTag(tag)
+    let a=HTMLTag(a:tag)
+    put =a
+    endfunction
+
+    " div
+    function HTMLDiv(class)
+    return "<div class=\"" . a:class . "\">\n</div>\n"
+    endfunction
+
+    function PrintHTMLDiv(class)
+    let a=HTMLDiv(a:class)
+    put =a
+    endfunction
+
 " encoding
 set encoding=utf-8
 " syntax highlihting
@@ -460,6 +491,6 @@ autocmd BufRead ~/.vimrc setlocal keywordprg=:help
 autocmd BufRead */Makefile set noexpandtab
 
 " remove all whitespace before end of line
-"   because if there is an empty line with space jumping paragraphs doens't work
-"   properly and it's very annoying
+" because if there is an empty line with space jumping paragraphs doens't work
+" properly and it's very annoying
 autocmd BufWritePre * :%s/\s\+$//e

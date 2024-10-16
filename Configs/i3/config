@@ -57,7 +57,7 @@ bindsym $alt+Shift+e exit
 ####################################################### Windows
 
 # focus left/down/up/right
-bindsym $alt+j focus right
+bindsym $alt+j focus left
 bindsym $alt+k focus down
 bindsym $alt+l focus up
 bindsym $alt+semicolon focus right
