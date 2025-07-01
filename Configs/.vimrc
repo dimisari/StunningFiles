@@ -340,9 +340,6 @@ set noswapfile
     " \verb
     command Lverb norm i\verb||
     " \begin - end
-    " command Lbegin execute
-      " \ "norm o\\begin{__<Esc>o\\end{__<Esc><Space>oO<CR>\\item<CR><Esc>" .
-      " \ "{{/__<CR>"
     command -nargs=1 Lbegin
       \ call PrintBeginEndBlock(<f-args>) | execute "norm lll<CR>"
 
@@ -483,7 +480,7 @@ syntax on
 " autocomplete in command mode (it helps, not really sure how though :p)
 set wildmode=full
 
-" enable K (which is mapped to <Space>h above)
+" enable K (which is mapped to <Space>H above)
 " for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
 
@@ -494,3 +491,4 @@ autocmd BufRead */Makefile set noexpandtab
 " because if there is an empty line with space jumping paragraphs doens't work
 " properly and it's very annoying
 autocmd BufWritePre * :%s/\s\+$//e
+

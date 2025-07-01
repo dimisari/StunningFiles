@@ -12,7 +12,8 @@ alias sb="source $bashFile"
 
 # git
 alias gst="git status"
-alias gpu="git pull"
+alias gpl="git pull"
+alias gps="git push"
 alias gcl="git clone"
 alias gbr="git branch"
 alias gch="git checkout"
@@ -23,10 +24,11 @@ alias glo="git log"
 #  commands in short
 alias h="cd $HOME"
 alias m="make"
+alias mr="make > make_result"
 alias mc="make clean"
 alias mc_="make clean_"
 alias ..="cd .."
-alias gr="grep -rn"
+alias gr="grep -rnI"
 alias sai="sudo apt install"
 alias sapt="sudo apt"
 
@@ -56,4 +58,11 @@ helpScripts="$HOME/StunningFiles/Scripts"
 alias temp="$helpScripts/copy_template.sh"
 alias dirr="$helpScripts/replace_in_dir.sh"
 alias inv="$helpScripts/in_vim.sh"
+
+# arduino
+alias ard="sudo chmod a+rw /dev/ttyUSB0"
+
+# todo
+alias todo="cat $HOME/Desktop/Stuff/Todo/Next"
+alias todovim="vim $HOME/Desktop/Stuff/Todo/Next"
 
