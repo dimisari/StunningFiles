@@ -46,7 +46,7 @@ fi
 
 # mine
 
-PS1="\W: "
+PS1="\[\033[0;35m\]\W\$\[\033[0;37m\] "
 
 # git stuff
 ghu(){
@@ -63,4 +63,11 @@ ga(){
   git status
 }
 
+sig(){
+  man $1 > /tmp/vim_man
+  vim /tmp/vim_man -c "norm gqGggkD"
+}
+
 source /home/gnostis/.local/share/cds/bashrc_append
+
+[ -f "/home/gnostis/.ghcup/env" ] && . "/home/gnostis/.ghcup/env" # ghcup-env
