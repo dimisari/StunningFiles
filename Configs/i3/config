@@ -15,8 +15,8 @@ default_border pixel 25
 ######## gaps between windows
 gaps inner 25
 # for the beautiful (poly)bars
-gaps top 80
-gaps bottom 115
+gaps top 75
+gaps bottom 100
 
 ######## colors (default but indicator same as backgr.)
 # class                 border  backgr. text    indicator child_border
