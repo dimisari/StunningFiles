@@ -13,10 +13,12 @@ set $scripts $HOME/StunningFiles/Scripts/i3
 default_border pixel 25
 
 ######## gaps between windows
-gaps inner 15
+gaps inner 4
 # for the beautiful (poly)bars
-gaps top 50
-gaps bottom 72
+gaps top 65
+gaps bottom 87
+gaps left 20
+gaps right 20
 
 ######## colors (default but indicator same as backgr.)
 # class                 border  backgr. text    indicator child_border

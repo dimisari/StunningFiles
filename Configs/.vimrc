@@ -2,7 +2,7 @@
 " column 80 red (and scary. don't go)
 set foldcolumn=1
 highlight FoldColumn ctermbg=6
-set colorcolumn=80
+set colorcolumn=85
 
 " searh options:
 "   _h_igh_l_ight _search_ + while typing the search (_inc_rementally)
