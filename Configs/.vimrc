@@ -1,48 +1,64 @@
-" make leftmost column some beautiful color +
-" column 80 red (and scary. don't go)
-set foldcolumn=1
-highlight FoldColumn ctermbg=6
-set colorcolumn=85
+" LINE COLORS
+" 6 leftmost column some  color + column 80 red (and scary. don't go)
+set foldcolumn=6
+highlight FoldColumn ctermbg=8
+set colorcolumn=80
 
-" searh options:
+" SEARH OPTIONS
 "   _h_igh_l_ight _search_ + while typing the search (_inc_rementally)
 set hlsearch incsearch
 "   _case_ insensitive (_ignore_) +
 "   become case sensitive in capital letters (_smart_)
 set ignorecase smartcase
 
+" AUTOINDENT
 " self explanatory and awesome
 set autoindent
 
-" tab options:
+" TAB OPTIONS
 "   it is 2 spaces + make it actual spaces (_expand_) +
 "   auto _shift(width)_ (e.g. inside multiline paren expr) is also 2 spaces
 set tabstop=2 expandtab shiftwidth=2
 
+" SCROLL LINE
 " start _scroll_ing 10 lines (_off_set) before hitting any edge
 " because why would you want your cursor that far
 set scrolloff=10
 
+" HUGE LINES
 " _show_ where a line is broken(_break_) because of hugeness
 " with "--->" as the 4 first chars (cannot be reached by cursor)
 set showbreak=--->
 
+" VISUAL CHAR NUM
 " _show_ number of selected characters in visual mode
 "   (among other things it seems)
 set showcmd
 
+" NO SWAP FILES
 " disable swap files (saved my life)
 set noswapfile
 
-" You'll probably need -> :help key-notation
+" ENCODING
+set encoding=utf-8
 
+" SYNTAX HIGHLIHTING
+syntax on
+
+" COMMAND MODE AUTOCOMPLETE (it helps, not really sure how though :p)
+set wildmode=full
+
+" GENERAL COMMENTS
+" You'll probably need ->
+" :help key-notation
 " If system clipboard copy and paste don't work: sudo apt intall vim-gtk
 "   (if not in debian-based distro figure it out by yourself)
 
+" MAPS
 " Always noremap so that I don't use macros inside macros and
 "   confuse myself I guess
 
-" general maps (I believe that means normal + visual mode)
+" GENERAL MAPS (I believe that means normal + visual mode)
 
   " left/down/up/right for normal people
   "   that follow the standard typing guidelines
@@ -79,7 +95,7 @@ set noswapfile
   noremap gk gj
   noremap gl gk
 
-" normal mode maps
+" NORMAL MODE MAPS
 
   " _c_opy line into system clipboard
   nnoremap c "+yy
@@ -180,7 +196,7 @@ set noswapfile
   " run make
   nnoremap M :w<CR> :! make<CR><CR>
 
-" visual mode maps
+" VISUAL MODE MAPS
 
   " replace all occurences of visually selected text
   vnoremap r y:%s/\(<C-R>=escape(@",'/\')<CR>\)//g<Left><Left>
@@ -240,15 +256,15 @@ set noswapfile
     " enclose visually selected text in begin-end block
     vnoremap <Space>be "vdi\begin{__}<CR>\end{__}<CR><Esc>kk"vp/__<CR>N
 
-" insert mode maps
+" INSERT MODE MAPS
 
   " autocomplete with tab
   inoremap <Tab> <C-n>
+
   " k l navigation in autocomplete
   inoremap <expr> k pumvisible() ? "\<C-N>" : "k"
   inoremap <expr> l pumvisible() ? "\<C-P>" : "l"
-
-  " κ λ navigation in autocomplete
+  " κ λ navigation in autocomplete (same but for greek)
   inoremap <expr> κ pumvisible() ? "\<C-N>" : "κ"
   inoremap <expr> λ pumvisible() ? "\<C-P>" : "λ"
 
@@ -263,31 +279,26 @@ set noswapfile
   " go to normal mode
   inoremap <expr> <C-j> "<Esc>" . (reg_recording() == "v" ? "q" : "")
 
-" command mode maps
+" COMMAND MODE MAPS
 
   " go to previous/next in searches or commands
   cnoremap <C-l> <C-p>
   cnoremap <C-k> <C-n>
 
-  " paste in command mode
+  " paste
   cnoremap <C-p> <C-r>+
 
-" custom commands
+" CUSTOM COMMANDS
+
   " make
   command M !make
+
   " run current (script) file
   command R !./%
-  " Open files
-  command F e ~/.files
-  " Add file to ~/.files with nickname
-  command -nargs=1 AddFile
-    \ execute "!echo " . shellescape(NicknameAndPathLine(<f-args>)) .
-    \ " >> ~/.files"
-  " Preview markdown
-  command MD !pandoc % | lynx -stdin
 
+  " VIMRC CUSTOM COMMANDS
 
-  " vimrc
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range CV '<,'> norm I"<Del> <Esc>
     " uncomment visually selected lines
@@ -296,13 +307,15 @@ set noswapfile
     " source
     command SV source ~/.vimrc | noh
 
-  " Haskell
+  " HASKELL CUSTOM COMMANDS
+
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range CH '<,'> norm I-- <Esc>
     " uncomment visually selected lines
     command -range UH '<,'> norm ^v;;d
 
-    " form of common stuff
+    " COMMON KEYWORDS with form
     " value
     command -nargs=1 Hval
       \ call PrintHaskellValue(<f-args>) | execute "norm ll/__<CR>"
@@ -319,18 +332,22 @@ set noswapfile
     command -nargs=1 Hinst
       \ call PrintHaskellInstance(<f-args>) | execute "norm /__<CR>"
 
+    " LOAD IN CHCI
     " save + load current file in ghci
     command G execute "w | !ghci -XLambdaCase %"
     " save + load current file in ghci from .. as base for imports
     command GL execute
       \ "w | !file=$(basename $(pwd))/%; cd ..; ghci -XLambdaCase $file"
 
-  " Latex
+  " LATEX CUSTOM COMMANDS
+
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range LC '<,'> norm I% <Esc>
     " uncomment visually selected lines
     command -range LU '<,'> norm ^v;d
 
+    " COMMON KEYWORDS with form
     " textit
     command Ltit norm i\textit{
     " texttt
@@ -343,7 +360,7 @@ set noswapfile
     command -nargs=1 Lbegin
       \ call PrintBeginEndBlock(<f-args>) | execute "norm lll<CR>"
 
-
+    " ENCLOSE COMMON KEYWORDS with form
     " enclose textit
     command Letit norm viW<Space>ebi\textit<Esc>:noh<CR>E
     " enclose texttt
@@ -353,35 +370,42 @@ set noswapfile
     " enclose verb
     command Leverb norm viW<Space>e|Bi\verb<Esc>:noh<CR>E
 
-  " Bash
+  " BASH CUSTOM COMMANDS
+
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range CB '<,'> norm I# <Esc>
     " uncomment visually selected lines
     command -range UB '<,'> norm ^v;d
 
-  " Python
+  " PYTHON CUSTOM COMMANDS
+
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range CP '<,'> norm I# <Esc>
     " uncomment visually selected lines
     command -range UP '<,'> norm ^v;d
 
-  " C
+  " C CUSTOM COMMANDS
+
+    " COMMNENT/UNCOMMENT
     " comment visually selected lines
     command -range CC '<,'> norm I// <Esc>
     " uncomment visually selected lines
     command -range UC '<,'> norm ^v;;d
     command SCC /\/\/
 
-  " HTML
+  " HTML CUSTOM COMMANDS
+
     " tag
     command -nargs=1 Tag
       \ call PrintHTMLTag(<f-args>) | execute "norm ll<CR>"
-
     " div
     command -nargs=1 Div
       \ call PrintHTMLDiv(<f-args>) | execute "norm ll<CR>"
 
 " Functions
+
 function CharOfSearch()
 return escape(nr2char(getchar()), "./$")
 endfunction
@@ -473,13 +497,7 @@ endfunction
     put =a
     endfunction
 
-" encoding
-set encoding=utf-8
-" syntax highlihting
-syntax on
-" autocomplete in command mode (it helps, not really sure how though :p)
-set wildmode=full
-
+" AUTOCMD
 " enable K (which is mapped to <Space>H above)
 " for help about word under cursor in vimrc
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
