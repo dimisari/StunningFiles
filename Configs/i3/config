@@ -10,7 +10,7 @@ set $scripts $HOME/StunningFiles/Scripts/i3
 ####################################################### Styling
 
 ######## window border
-default_border pixel 25
+default_border pixel 15
 
 ######## gaps between windows
 gaps inner 4
