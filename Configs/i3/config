@@ -15,7 +15,7 @@ default_border pixel 15
 ######## gaps between windows
 gaps inner 4
 # for the beautiful (poly)bars
-gaps top 65
+gaps top 76
 gaps bottom 87
 gaps left 20
 gaps right 20
