@@ -1,0 +1,25 @@
+"\C-j":"\C-h\C-m"
+
+"\C-h":clear-screen
+
+"\C-l":previous-history
+"\C-k":next-history
+
+"\C-f":end-of-line
+
+"\C-e":alias-expand-line
+
+"\C-d":kill-line
+
+";;":forward-word
+";j":backward-word
+";d":kill-word
+
+"\"": "\C-v\"\C-v\"\C-b"
+"'": "\C-v'\C-v'\C-b"
+
+"'": "\C-v'\C-v'\C-b"
+
+set completion-ignore-case On
+set completion-prefix-display-length 3
+set show-all-if-ambiguous On

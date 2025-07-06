@@ -1,0 +1,8 @@
+bind: { { } left
+bind: ( ( ) left
+bind: [ [ ] left
+bind: < < > left
+bind: ctrl-j enter
+bind: ctrl-l ctrl-p
+bind: ctrl-k ctrl-n
+bind: ; ctrl-l
