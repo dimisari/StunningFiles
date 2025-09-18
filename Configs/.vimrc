@@ -174,7 +174,7 @@ set wildmode=full
   " at the bottom of the file so that I can combine it in with G.
 
   " run command under cursor and print output underneath
-  nnoremap <Space>r 0v$h"cy:r!<C-r>c<CR>
+  nnoremap <Space>r 0v$h"cy:r!<C-r>c<CR><CR>
 
   " increase/decrease int
   nnoremap <Space>mi <C-a>
@@ -504,6 +504,7 @@ autocmd BufRead ~/.vimrc setlocal keywordprg=:help
 
 " regular tab for Makefile
 autocmd BufRead */Makefile set noexpandtab
+autocmd BufRead */makefile set noexpandtab
 
 " remove all whitespace before end of line
 " because if there is an empty line with space jumping paragraphs doens't work

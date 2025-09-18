@@ -35,6 +35,7 @@ alias sapt="sudo apt"
 # haskell
 alias cb="cabal build"
 alias cr="cabal run"
+alias cblib="cabal install --lib"
 alias ghci="ghci -XLambdaCase"
 alias ghc="ghc -no-keep-hi-files -no-keep-o-files"
 
@@ -61,10 +62,4 @@ alias inv="$helpScripts/in_vim.sh"
 
 # arduino
 alias ard="sudo chmod a+rw /dev/ttyUSB0"
-
-# todo
-alias todo="cat $HOME/Desktop/Stuff/Todo/Next"
-alias todovim="vim $HOME/Desktop/Stuff/Todo/Next"
-alias sched="cat $HOME/Desktop/Stuff/Schedule"
-alias schedvim="vim $HOME/Desktop/Stuff/Schedule"
 
