@@ -7,7 +7,7 @@ mkdir -p $config_backups_dir
 # directory where all the new stunning configuration files are located
 stunning_configs_dir="$(cd $(dirname $0)/../../Configs && pwd)"
 
-for file in .bashrc .bash_aliases .vimrc
+for file in .bashrc .bash_aliases .vimrc .inputrc
 do
   # move the existing files from the home directory to the backup directory
   echo "Moving the file '$HOME/$file' to '$config_backups_dir'"
@@ -23,11 +23,11 @@ config_dir=$HOME/.config
 
 for dir in i3 polybar ranger picom
 do
-  # move existing directories into $config_backups_dir 
+  # move existing directories into $config_backups_dir
   echo "Moving '$config_dir/$dir' to '$config_backups_dir'"
   mv -f $config_dir/$dir $config_backups_dir
 
-  # link to stunning directories from $config_dir 
+  # link to stunning directories from $config_dir
   echo "Linking"
   ln -sv $stunning_configs_dir/$dir $config_dir
 done
