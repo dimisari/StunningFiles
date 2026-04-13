@@ -2,7 +2,7 @@
 
 sudo apt install vim-gtk3 ranger i3 polybar texlive texlive-lang-greek xsel
 
-sudo apt install apt-transport-https curl picom
+sudo apt install apt-transport-https curl picom feh
 
 curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 
