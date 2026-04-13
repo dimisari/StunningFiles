@@ -31,6 +31,7 @@ alias ..="cd .."
 alias gr="grep -rnI"
 alias sai="sudo apt install"
 alias sapt="sudo apt"
+alias clipboard="xclip -selection clipboard"
 
 # haskell
 alias cb="cabal build"
