@@ -68,6 +68,10 @@ sig(){
   vim /tmp/vim_man -c "norm gqGggkD"
 }
 
-source /home/gnostis/.local/share/cds/bashrc_append
+source /home/gnostis/.local/share/cds/bashrc_append.sh
 
 [ -f "/home/gnostis/.ghcup/env" ] && . "/home/gnostis/.ghcup/env" # ghcup-env
+
+
+# Created by `pipx` on 2026-04-13 18:51:11
+export PATH="$PATH:/home/gnostis/.local/bin"
