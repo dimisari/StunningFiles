@@ -1,6 +1,6 @@
 " LINE COLORS
 " 6 leftmost column some  color + column 80 red (and scary. don't go)
-set foldcolumn=6
+set foldcolumn=1
 highlight FoldColumn ctermbg=8
 set colorcolumn=82
 

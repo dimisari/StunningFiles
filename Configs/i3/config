@@ -77,7 +77,7 @@ bindsym $alt+v split v
 ##########################################################
 
 # mode to _m_ove the selected window around within the workspace
-bindsym $alt+m mode "_m_ove around here"
+bindsym $win+m mode "_m_ove around here"
 mode "_m_ove around here" {
   bindsym j move left
   bindsym k move down
@@ -157,7 +157,7 @@ mode "build workspace" {
 # mode to _m_ove the selected window through other workspaces
 # - immediately by specific number
 # - previous/next with j/; and space when done
-bindsym $win+m mode "_m_ove outside"
+bindsym $alt+m mode "_m_ove outside"
 mode "_m_ove outside" {
   bindsym 1 move container to workspace $ws1 workspace $ws1 mode "default"
   bindsym 2 move container to workspace $ws2 workspace $ws2 mode "default"
