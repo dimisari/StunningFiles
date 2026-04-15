@@ -4,8 +4,6 @@
 # alt and windows keys
 set $alt Mod1
 set $win Mod4
-# scripts path
-set $scripts $HOME/StunningFiles/Scripts/i3
 
 ####################################################### Styling
 
@@ -211,9 +209,6 @@ exec --no-startup-id picom
 exec --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpeg
 exec_always --no-startup-id feh --bg-scale $HOME/StunningFiles/background.jpeg
 
-# i3msg script: for automatically starting various apps in various workspaces
-exec --no-startup-id $scripts/i3msg.sh
-
 # setxkbmap: for languages (greek and english + toggle with alt shift)
 exec --no-startup-id \
   "setxkbmap -layout us,gr -option 'grp:alt_caps_toggle' -model pc105"
@@ -230,6 +225,8 @@ exec_always --no-startup-id \
 # I guess this is distro specific. I don't know. I use mint btw.
 exec --no-startup-id dex --autostart --environment i3
 
+# start a terminal at workspace 1
+exec i3-msg "workspace 1; exec i3-sensible-terminal"
 ####################################################### Floating Windows
 
 # toggle tiling / floating
