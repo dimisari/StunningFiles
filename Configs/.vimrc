@@ -288,6 +288,9 @@ set wildmode=full
   " paste
   cnoremap <C-p> <C-r>+
 
+  " command history
+  cnoremap <C-h> <C-f>
+
 " CUSTOM COMMANDS
 
   " make

@@ -9,7 +9,7 @@ case $1 in
   *) case $extension in
        c)   cp $tmps/1.c $1;vim $1;;
        sh)  cp $tmps/2.sh $1;chmod 700 $1;vim $1;;
-       hs)  cp $tmps/3.hs $1;sed -i "3s/_/$name/" $1;vim $1;;
+       hs)  cp $tmps/3.hs $1;sed -i "s/_/$name/" $1;vim $1;;
        py)  cp $tmps/4.py $1;chmod 700 $1;vim $1;;
        ltx)
          cp -r $tmps/Latex $1; tex=$1/${1%%.*}.tex; mv $1/code.tex $tex;
