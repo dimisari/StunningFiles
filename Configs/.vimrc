@@ -122,7 +122,7 @@ set wildmode=full
   nnoremap <Space>s *Nzz
 
   " _S_earch Word under cursor + center cursor vertically
-  nnoremap S viWy/\V<C-R>=escape(@",'/\')<CR><CR>N
+  nnoremap S viWy/\s<C-R>=escape(@",'/\')<CR>\s<CR>N
 
   " delete Word and get into insert mode
   nnoremap X viWs
@@ -199,13 +199,13 @@ set wildmode=full
 " VISUAL MODE MAPS
 
   " replace all occurences of visually selected text
-  vnoremap r y:%s/\(<C-R>=escape(@",'/\')<CR>\)//g<Left><Left>
+  vnoremap r y:%s/\V\(<C-R>=escape(@",'/\')<CR>\)//g<Left><Left>
 
   " search visually selected text
   vnoremap <Space>s y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
   " replace something inside only inside the viusally selected text
-  vnoremap <Space>r :s//g<Left><Left>
+  vnoremap <Space>r :s/\%V/g<Left><Left>
 
   " go to normal mode
   vnoremap <C-j> <Esc><Esc>
