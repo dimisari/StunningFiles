@@ -231,16 +231,18 @@ set wildmode=full
   vnoremap <Space>e\| s\|<c-r>"\|<Esc>
 
   " select all text inside () [] {} || line
-  vnoremap ip ib
-  vnoremap is i[
-  vnoremap ib i{
+  vnoremap ip <Esc>/[()]<CR>:noh<CR>vib
+  vnoremap is <Esc>/[][]<CR>:noh<CR>vi[
+  vnoremap ib <Esc>/[{}]<CR>:noh<CR>vi{
+  vnoremap i" <Esc>/"<CR>:noh<CR>vi"
   vnoremap i\| <Esc>F\|lvf\|h
   vnoremap il <Esc>^v$h
 
   " select all text inside and including () [] {}
   vnoremap ap <Esc>/[()]<CR>:noh<CR>vab
-  vnoremap as <Esc>/[\[\]]<CR>:noh<CR>va[
+  vnoremap as <Esc>/[][]<CR>:noh<CR>va[
   vnoremap ab <Esc>/[{}]<CR>:noh<CR>va{
+  vnoremap a" <Esc>/"<CR>:noh<CR>va"
 
   " _p_aste on top of selected text
   vnoremap p "+p
@@ -320,8 +322,7 @@ set wildmode=full
 
     " COMMON KEYWORDS with form
     " value
-    command -nargs=1 Hval
-      \ call PrintHaskellValue(<f-args>) | execute "norm ll/__<CR>"
+    command -nargs=1 HsVal call PrintHsVal(<f-args>) | execute "norm lll<CR>"
     " data
     command -nargs=1 Hdata
       \ call PrintHaskellData(<f-args>) | execute "norm l/__<CR>"
@@ -419,12 +420,12 @@ endfunction
 
   " Haskell
     " value
-    function HaskellValue(value_name)
-    return a:value_name . " :: __\n" . a:value_name . " = __\n\n"
+    function HsVal(value_name)
+    return a:value_name . " :: \n" . a:value_name . " = \n\n"
     endfunction
 
-    function PrintHaskellValue(value_name)
-    let a=HaskellValue(a:value_name)
+    function PrintHsVal(value_name)
+    let a=HsVal(a:value_name)
     put =a
     endfunction
 

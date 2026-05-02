@@ -3,18 +3,56 @@
 import System.Process qualified as SP
 import System.Environment qualified as SE
 
+-- main
+
 main :: IO ()
 main =
   SE.getArgs >>= \case
-    [s] -> correct_arg s
+    [s] -> initial_grep s
     _ -> putStrLn "Usage: script toBeReplaced"
 
-correct_arg :: String -> IO ()
-correct_arg = \s ->
-  print_grep s >>
-  call_grep s >>
-  putStrLn "Exclude dirs? [y/N]" >>
-  getLine >>= is_yes_no (exlude_dirs s) undefined
+-- interactions
+
+initial_grep :: String -> IO ()
+initial_grep = \s ->
+  putStrLn "" >>
+  print_and_call (grep s) >>
+  putStrLn "\nExclude dirs? [y/N]" >>
+  is_yes_no (exlude_dirs s) (ask_replace s)
+
+exlude_dirs :: String -> IO ()
+exlude_dirs = \s ->
+  putStrLn "Write the dirs seperated by spaces" >>
+  getLine >>= \dirs_str ->
+  print_and_call (grep_exclude_dirs dirs_str s) >>
+  ask_replace_exclude_dirs dirs_str s
+
+ask_replace :: String -> IO ()
+ask_replace = \s ->
+  putStrLn "Proceed to replacing? [y/N]" >>
+  at_yes_do (replace s)
+
+ask_replace_exclude_dirs :: String -> String -> IO ()
+ask_replace_exclude_dirs = \dirs_str s ->
+  putStrLn "Proceed to replacing? [y/N]" >>
+  at_yes_do (replace_exclude_dirs dirs_str s)
+
+general_replace :: (String -> String) -> IO ()
+general_replace = \f ->
+  putStrLn "Replace with:" >>
+  getLine >>= \l ->
+  putStrLn "" >>
+  print_and_call (f l) >>
+  putStrLn "" >>
+  print_and_call (grep l) >>
+  putStrLn ""
+
+replace :: String -> IO ()
+replace = \s -> general_replace (find_sed s)
+
+replace_exclude_dirs :: String -> String -> IO ()
+replace_exclude_dirs = \dirs_str s ->
+  general_replace (find_sed_exclude_dirs dirs_str s)
 
 -- command strs
 
@@ -34,61 +72,45 @@ grep_exclude_dirs = \dirs_str s ->
 exclude_str :: String -> String
 exclude_str = concatMap (" --exclude-dir=" ++) . words
 
-find_sed_beginning :: String
-find_sed_beginning = "find . -type f -exec sed -i -E \"s/"
+find_sed_end :: String -> String -> String
+find_sed_end = \a b ->
+  " -type f -exec sed -i -E " ++ substitution a b ++ " {} \\;"
 
-find_sed_end :: String
-find_sed_end = "/g\" {} \\;"
+substitution :: String -> String -> String
+substitution = \a b -> quoted $ "s/" ++ a ++ "/" ++ b ++ "/g"
 
 find_sed :: String -> String -> String
-find_sed = \a b -> find_sed_beginning ++ a ++ "/" ++ b ++ find_sed_end
+find_sed = \a b -> "find ." ++ find_sed_end a b
 
--- print/call commands
+find_sed_exclude_dirs :: String -> String -> String -> String
+find_sed_exclude_dirs = \dirs_str a b ->
+  "find ." ++ find_exclude_dirs dirs_str ++ find_sed_end a b
 
-print_grep :: String -> IO ()
-print_grep = putStrLn . grep
+find_exclude_dirs :: String -> String
+find_exclude_dirs = concatMap find_exclude_dir . words
 
-call_grep :: String -> IO ()
-call_grep = SP.callCommand . grep
-
-call_grep_exclude_dirs :: String -> String -> IO ()
-call_grep_exclude_dirs = \dirs s -> SP.callCommand $ grep_exclude_dirs dirs s
-
-call_find_sed :: String -> String -> IO ()
-call_find_sed = \a b -> SP.callCommand $ find_sed a b
+find_exclude_dir :: String -> String
+find_exclude_dir = \s ->
+  " -path " ++ quoted ("./" ++ s) ++ " -prune -o"
 
 --
 
-new_s1 :: String -> (String, Bool) {asdfsdaf} [fasdfsd]
-new_s1 = \case
-  "" -> ("", False)
-  '[' : s -> ("([" ++ s ++ ")", True)
-  c : s -> (\(s_new, b) -> (c : s_new, b)) $ new_s1 s
-
-s2_end :: String -> String
-s2_end = \s1 ->
-  case new_s1 s1 of
-    (_, True) -> "\\1"
-    _ -> ""
-
---
-
-exlude_dirs :: String -> IO ()
-exlude_dirs = \s ->
-  putStrLn "Write the dirs seperated by spaces" >>
-  getLine >>= \dirs_str ->
-  putStrLn (grep_exclude_dirs dirs_str s) >>
-  call_grep_exclude_dirs dirs_str s >>
-  putStrLn "Proceed to replacing?"
+print_and_call :: String -> IO ()
+print_and_call = \s -> putStrLn s >> SP.callCommand s
 
 -- is_yes_no
 
-is_yes_no :: IO () -> IO () -> String -> IO ()
-is_yes_no = \do_yes do_no s -> case is_yes s of
-  True -> do_yes
-  False -> case is_no s of
-    True -> do_no
-    False -> putStrLn "Unexpected answer"
+is_yes_no :: IO () -> IO () -> IO ()
+is_yes_no = \do_yes do_no ->
+  getLine >>= \s ->
+  case is_yes s of
+    True -> do_yes
+    False -> case is_no s of
+      True -> do_no
+      False -> putStrLn "Unexpected answer"
+
+at_yes_do :: IO () -> IO ()
+at_yes_do = \do_yes -> is_yes_no do_yes (pure ())
 
 is_yes :: String -> Bool
 is_yes = flip elem ["y", "Y", "yes", "YES"]
