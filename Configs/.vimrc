@@ -122,7 +122,7 @@ set wildmode=full
   nnoremap <Space>s *Nzz
 
   " _S_earch Word under cursor + center cursor vertically
-  nnoremap S viWy/\s<C-R>=escape(@",'/\')<CR>\s<CR>N
+  nnoremap S viWy/<C-R>=escape(@",'/\')<CR><CR>N
 
   " delete Word and get into insert mode
   nnoremap X viWs
@@ -238,9 +238,9 @@ set wildmode=full
   vnoremap il <Esc>^v$h
 
   " select all text inside and including () [] {}
-  vnoremap ap ab
-  vnoremap as a[
-  vnoremap ab a{
+  vnoremap ap <Esc>/[()]<CR>:noh<CR>vab
+  vnoremap as <Esc>/[\[\]]<CR>:noh<CR>va[
+  vnoremap ab <Esc>/[{}]<CR>:noh<CR>va{
 
   " _p_aste on top of selected text
   vnoremap p "+p

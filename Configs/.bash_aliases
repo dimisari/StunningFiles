@@ -21,11 +21,9 @@ alias gdi="git diff"
 alias glo="git log"
 
 #  commands in short
-alias h="cd $HOME"
 alias m="make"
-alias mr="make > make_result"
 alias mc="make clean"
-alias mc_="make clean_"
+alias mt="make test"
 alias ..="cd .."
 alias gr="grep -rnI"
 alias sai="sudo apt install"
@@ -57,7 +55,7 @@ alias ρ="ranger --choosedir=$HOME/.rangerdir; cd \"\`cat $HOME/.rangerdir\`\""
 # help scripts
 helpScripts="$HOME/StunningFiles/Scripts"
 alias temp="$helpScripts/copy_template.sh"
-alias dirr="$helpScripts/replace_in_dir.sh"
+alias dirr="runhaskell $helpScripts/replace_in_dir.hs"
 alias inv="$helpScripts/in_vim.sh"
 
 # arduino
