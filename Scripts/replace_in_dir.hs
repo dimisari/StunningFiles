@@ -2,6 +2,7 @@
 
 import System.Process qualified as SP
 import System.Environment qualified as SE
+import Data.List.Split qualified as DLS
 
 -- main
 
@@ -44,8 +45,9 @@ general_replace = \f ->
   putStrLn "" >>
   print_and_call (f l) >>
   putStrLn "" >>
-  print_and_call (grep l) >>
-  putStrLn ""
+  case l of
+    "" -> pure ()
+    _ -> print_and_call (grep $ remove_nl l) >> putStrLn ""
 
 replace :: String -> IO ()
 replace = \s -> general_replace (find_sed s)
@@ -97,6 +99,9 @@ find_exclude_dir = \s ->
 
 print_and_call :: String -> IO ()
 print_and_call = \s -> putStrLn s >> SP.callCommand s
+
+remove_nl :: String -> String
+remove_nl = concat . DLS.splitOn "\\n"
 
 -- is_yes_no
 
