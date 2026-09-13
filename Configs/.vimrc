@@ -316,9 +316,9 @@ set wildmode=full
 
     " COMMNENT/UNCOMMENT
     " comment visually selected lines
-    command -range CH '<,'> norm I-- <Esc>
+    command -range HsCom '<,'> norm I-- <Esc>
     " uncomment visually selected lines
-    command -range UH '<,'> norm ^v;;d
+    command -range HsUncom '<,'> norm ^v;;d
 
     " COMMON KEYWORDS with form
     " value
@@ -507,11 +507,9 @@ endfunction
 autocmd BufRead ~/.vimrc setlocal keywordprg=:help
 
 " regular tab for Makefile
-autocmd BufRead */Makefile set noexpandtab
-autocmd BufRead */makefile set noexpandtab
+autocmd BufRead */Makefile,*/makefile set noexpandtab
 
 " remove all whitespace before end of line
 " because if there is an empty line with space jumping paragraphs doens't work
 " properly and it's very annoying
 autocmd BufWritePre * :%s/\s\+$//e
-

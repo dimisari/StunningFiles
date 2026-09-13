@@ -30,7 +30,7 @@ client.focused_inactive #333333 #5f676a #ffffff #5f676a   #5f676a
 bindsym $alt+a exec i3-sensible-terminal
 
 # launch brave
-bindsym $alt+s exec "brave-browser --password-store=basic"
+bindsym $alt+s exec --no-startup-id brave-browser
 
 # kill (aka _d_elete) window
 bindsym $alt+d kill
@@ -141,10 +141,8 @@ mode "build workspace" {
   bindsym 1 workspace $ws1; exec i3-sensible-terminal; mode "default"
   bindsym 2 workspace $ws2; exec i3-sensible-terminal; mode "default"
   bindsym 3 workspace $ws3; exec i3-sensible-terminal; mode "default"
-  bindsym 4 workspace $ws4;\
-    exec "brave-browser --password-store=basic"; mode "default"
-  bindsym 5 workspace $ws5;\
-    exec "brave-browser --password-store=basic"; mode "default"
+  bindsym 4 workspace $ws4; exec --no-startup-id brave-browser; mode "default"
+  bindsym 5 workspace $ws5; exec --no-startup-id brave-browser; mode "default"
   bindsym 6 workspace $ws6; exec signal-desktop; mode "default"
   bindsym 7 workspace $ws7; exec flatpak run com.spotify.Client; mode "default"
   bindsym 9 workspace $ws9; exec /usr/local/bin/bitcoin-qt; mode "default"

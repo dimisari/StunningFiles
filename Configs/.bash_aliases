@@ -1,13 +1,10 @@
-# now
-alias bam="cd $HOME/Desktop/lambda-cases/src/; vim ASTTypes.hs"
-
 # configs
 bashFile="$HOME/.bashrc"
 alias vb="vim $bashFile"
 alias vba="vim $HOME/.bash_aliases"
 alias vv="vim $HOME/.vimrc"
 alias vi3="vim $HOME/.config/i3/config"
-alias vi="vim $HOME/.inputrc"
+alias tmpvim="vim $HOME/experiments/txt/tmp.txt"
 alias sb="source $bashFile"
 
 # git
@@ -36,7 +33,7 @@ alias cr="cabal run"
 alias cblib="cabal install --lib"
 alias ghci="ghci -XLambdaCase"
 alias ghc="ghc -no-keep-hi-files -no-keep-o-files"
-
+alias predef_ghc="ghc -no-keep-hi-files -no-keep-o-files -i/home/gnostis/Desktop/lambda-cases/src"
 # docker
 alias dps="docker ps"
 alias dims="docker images"
@@ -61,3 +58,5 @@ alias inv="$helpScripts/in_vim.sh"
 # arduino
 alias ard="sudo chmod a+rw /dev/ttyUSB0"
 
+# make taskman
+alias maketm="lcc taskman && mv taskman $HOME/.local/bin"
